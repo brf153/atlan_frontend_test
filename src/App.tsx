@@ -1,15 +1,15 @@
 import "./App.css"
-import SearchBar from "./components/SearchBar"
+import Navbar from "./components/Navbar";
+import Sidebar from "./components/Sidebar";
 
 const App = () => {
+
   return (
     <div className="App">
-      <header className="App-header">
-        <SearchBar />
-        <div>
-          link
+        <Sidebar />
+        <div className="w-[90vw]">
+        <Navbar />
         </div>
-      </header>
     </div>
   )
 }
