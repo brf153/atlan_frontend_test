@@ -20,6 +20,7 @@ const SearchBar = React.forwardRef<HTMLInputElement, InputProps>(
           <input
             {...props}
             type="search"
+            placeholder='Search...'
             ref={ref}
             className="w-full p-2 placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
           />

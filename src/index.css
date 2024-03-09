@@ -1,6 +1,64 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+*{
+  margin: 0;
+  padding: 0;
+}
+
+/* #3f3f46 */
+
+/* #27272a */
+
+.dark-bg{
+  background-color: #27272a;
+}
+
+
+.rainbow-icon {
+  background-image: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
+  background-clip: content-box; /* Clip gradient within icon content */
+}
+
+.carousel.carousel-slider{
+  height: 110% !important;
+}
+
+.thumbs{
+  display: none;
+}
+
+.control-dots{
+  display: none;
+}
+
+.img-pic{
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: fill !important;
+}
+
+@media (max-width: 1023px) {
+  .grid-cols-2 {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid-cols-2 {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .lg\:grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
  
 @layer base {
   :root {

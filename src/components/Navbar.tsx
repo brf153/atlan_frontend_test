@@ -20,8 +20,8 @@ function Navbar({}: Props) {
 
 
           <SignedIn>
-            <CiStar className="bg-white w-[2.5rem] h-[2.5rem] p-1 rounded-full m-2"/>
-            <CiBellOn className="bg-white w-[2.5rem] h-[2.5rem] p-1 rounded-full m-2" />
+            <CiStar className="bg-white w-[2.5rem] h-[2.5rem] p-1 rounded-full m-2 cursor-pointer"/>
+            <CiBellOn className="bg-white w-[2.5rem] h-[2.5rem] p-1 rounded-full m-2 cursor-pointer" />
             <UserButton/>
           </SignedIn>
         </div>
