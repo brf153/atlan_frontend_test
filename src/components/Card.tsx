@@ -29,7 +29,7 @@ export function CardLLM({card}:{card: CardLLMProps}) {
     </svg>
           
     
-    <Card className="w-[350px] h-[200px] relative">
+    <Card className="w-[350px] h-[200px] relative overflow-hidden">
 
     <div className="w-fit h-4 z-20 text-white absolute top-2 left-3 right-0 p-4 rounded-sm dark-bg opacity-80">
       <div className="flex relative bottom-3 w-auto gap-2">

@@ -15,10 +15,21 @@
   background-color: #27272a;
 }
 
+.gray-bg {
+  background-color: rgb(104 106 114);
+}
+
+.dark-gray-bg {
+  background-color: rgb(40, 41, 44);
+}
 
 .rainbow-icon {
   background-image: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
   background-clip: content-box; /* Clip gradient within icon content */
+}
+
+.chatbar::-webkit-scrollbar {
+  display: none;
 }
 
 .carousel.carousel-slider{

@@ -3,13 +3,17 @@ import SearchBar from '@/components/SearchBar';
 import {CiStar, CiBellOn} from 'react-icons/ci';
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/clerk-react";
 import background from "@/public/background.jpg"
+import unnamed from "@/public/unnamed.png"
+import logo2 from "@/public/logo2.jpeg"
+import logo from "@/public/logo3.jpg"
+import logo3 from "@/public/logo5.jpg"
 
 type Props = {}
 
 function Navbar({}: Props) {
   return (
     <div className="Navbar">
-        <img src={background} alt="background" className="NavbarImg"/>
+        <img src={logo2} alt="background" className="NavbarImg object-cover"/>
         <SearchBar />
         <div className="flex w-auto justify-between">
           <SignedOut>

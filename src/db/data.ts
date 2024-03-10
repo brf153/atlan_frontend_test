@@ -209,3 +209,35 @@ type CardLLMProps = {
     icon: RiComputerLine,
     title: 'Programming',
   }]
+
+ type SidebarLLMProps = {
+    name: string;
+    description: string;
+    image: string;
+    id: number;
+  };
+
+  export const llmModel: SidebarLLMProps[] = [{
+    name: 'GUI GPT API prompt generator',
+    description: 'OpenAI GPT-3',
+    image: ImageUrl.Kitten,
+    id: 1
+  },
+  {
+    name: 'Llama 2',
+    description: 'OpenAI GPT-4',
+    image: ImageUrl.Puppy,
+    id: 2
+  },
+  {
+    name: 'ChatGPT',
+    description: 'OpenAI GPT-5',
+    image: ImageUrl.Mountain,
+    id: 3
+  },
+  {
+    name: 'GPT-4 Turbo',
+    description: 'OpenAI GPT-5',
+    image: ImageUrl.Mountain,
+    id: 4
+  }]

@@ -37,7 +37,7 @@ const Sidebar = () => {
         <div className='flex flex-col w-full h-full dark-bg text-white'>
             <div className='flex items-center justify-center mt-4 mb-4'>
                 <Link to="/">
-                <img src={logowhite} alt="logo" className='rounded-full cursor-pointer'/>
+                <img src={logowhite} alt="logo" className='rounded-full cursor-pointer object-cover'/>
                 </Link>
             </div>
 

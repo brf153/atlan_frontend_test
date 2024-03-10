@@ -27,7 +27,7 @@ export function CardCollect() {
     {CarouselItemData.map((item, index) => {
       return (
         <div key={index}>
-          <img className="h-[25rem] w-auto rounded-lg" src={item.image} />
+          <img className="h-[25rem] w-auto rounded-lg object-cover" src={item.image} />
           <p className="legend">{item.legend}</p>
         </div>
       )
