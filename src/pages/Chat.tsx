@@ -1,9 +1,9 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 // import Layout from '@/layout/Layout';
 import Sidebar from "@/components/Sidebar"
 import SearchBar from "@/components/SearchBar"
-import { ImageUrl, LLMProps } from "@/enum/enums"
-import { llmModel } from "@/db/data"
+import { ImageUrl, LLMProps, WaveBase64 } from "@/enum/enums"
+import { LLMData, LLMDataProps, Message, llmModel } from "@/db/data"
 import { Separator } from "@/components/ui/separator"
 import {IoMdSend, IoIosText} from 'react-icons/io';
 import {useUser} from '@clerk/clerk-react';
@@ -16,22 +16,23 @@ import { SelectDemo } from "@/components/Popover"
 import { IoMdSettings } from "react-icons/io";
 import { SliderDemo } from "@/components/Slider"
 import { getResponse } from "@/api/llm"
-// import { getResponse } from "@/api/llm"
+import {useSelector, useDispatch} from 'react-redux';
+import {selectCurrentLLM, setCurrentLLM, selectAvailableLLMs} from '@/features/llm/llmSlice';
+import {useAppSelector} from '@/app/hooks';
 
-interface Message {
-  id: number
-  content: string
-  sender: "user" | "bot"
-}
-
-const ModelSidebar = () => {
+const ModelSidebar = ({currentLLM}:{currentLLM:LLMDataProps}) => {
+  const dispatch = useDispatch();
+  const availableLLMs = useAppSelector(selectAvailableLLMs)
+  const handleClick = (selectedLLM:LLMDataProps) => {
+    dispatch(setCurrentLLM(selectedLLM));
+  }
   return (
     <div className="w-[15vw] bg-black h-screen flex flex-col">
       <div className="flex w-full items-center justify-center h-16 border-b border-gray-600 dark-bg">
         <SearchBar className="w-[80%] mx-auto" />
       </div>
-      {llmModel.map((model,index) => (
-        <div key={index} className={`p-4 flex w-full gap-2 ${model.id === 1 && "gray-bg"}`}>
+      {availableLLMs.map((model,index) => (
+        <div onClick={()=>handleClick(model)} key={index} className={`p-4 flex w-full gap-2 cursor-pointer ${model.id === currentLLM.id && "gray-bg"}`}>
           <img
             src={model.image}
             alt="kitten"
@@ -50,32 +51,27 @@ const ModelSidebar = () => {
   )
 }
 
-const ModelDescription = ({temperature, setTemperature, LLM, setLLM}:{temperature:number, setTemperature:React.Dispatch<React.SetStateAction<number>>, LLM:string, setLLM:React.Dispatch<React.SetStateAction<LLMProps>>}) => {
-  const items = [
-    { icon: <FaRegImage style={{ fill: "url(#blue-gradient)", stroke: "url(#blue-gradient)" }} className="mr-2 h-4 w-4"/>, label: "Image Generation" },
-    { icon: <IoIosText style={{ fill: "url(#blue-gradient)", stroke: "url(#blue-gradient)" }} className="mr-2 h-4 w-4"/>, label: "Text Generation" },
-    { icon: <GrPowerReset style={{ fill: "url(#blue-gradient)", stroke: "url(#blue-gradient)" }} className="mr-2 h-4 w-4"/>, label: "Default" },
-  ];
+const ModelDescription = ({temperature, setTemperature, model, setModel, llm}:{temperature:number, setTemperature:React.Dispatch<React.SetStateAction<number>>, model:string, setModel:React.Dispatch<React.SetStateAction<LLMProps>>, llm:LLMDataProps}) => {
 
   return (
     <div className="w-[15vw] dark-gray-bg h-screen flex flex-col gap-2">
       <div className="p-4 flex w-full gap-2">
         <img
-          src={ImageUrl.Kitten}
+          src={llm.image}
           alt="kitten"
           className="w-14 h-14 rounded-md mx-auto"
         />
         <div className="text-white mt-1 w-[75%] truncate text-ellipsis">
-          <span className="font-bold text-lg">GPT-3</span>
+          <span className="font-bold text-lg">{llm.name}</span>
           <br />
           <div className="flex text-sm font-light text-gray-300 w-[90%] truncate text-ellipsis">
-            <img src={ImageUrl.Person} alt="person" className="w-4 h-4 inline" />
-            <span className="ml-2">Devaansh</span>
+            <img src={llm.creatorPic} alt="person" className="w-4 h-4 inline" />
+            <span className="ml-2">{llm.creator}</span>
           </div>
         </div>
       </div>
       <div className="text-white px-4">
-        <p> facere eum, aut cupiditate doloremque suscipit quod omnis quaerat pariatur voluptatibus? Dolore corporis consequatur quaerat.</p>
+        <p>{llm.description}</p>
       </div>
       <Separator />
       <div className="w-full px-4 flex justify-between mt-2">
@@ -83,7 +79,7 @@ const ModelDescription = ({temperature, setTemperature, LLM, setLLM}:{temperatur
           <IoMdSettings className="mt-1"/>
           <p>Model</p>
         </div>
-      <SelectDemo LLM={LLM} selectLLM={setLLM}/>
+      <SelectDemo model={model} selectModel={setModel}/>
       </div>
       <div className="text-white px-4 flex flex-col gap-4 mt-2">
         <p className="flex justify-between text-gray-300">
@@ -99,17 +95,19 @@ const ModelDescription = ({temperature, setTemperature, LLM, setLLM}:{temperatur
 
 const Chat: React.FC = () => {
 
+  let currentLLM:LLMDataProps | undefined = useAppSelector(selectCurrentLLM);
+  console.log("currentLLM",currentLLM);
+  if(!currentLLM){
+    currentLLM = LLMData[0];
+  };
+
   const { isSignedIn, user, isLoaded } = useUser();
 
   const [inputMessage, setInputMessage] = useState<string>("")
-  const [messages, setMessages] = useState<Message[]>([
-    { id: 1, content: "Hello, how can I help you?", sender: "bot" },
-    { id: 2, content: "Hi! How can I assist you today?", sender: "user" },
-    { id: 3, content: "Hello, how can I help you?", sender: "bot" },
-    { id: 4, content: "Hi! How can I assist you today?", sender: "user" },
-    { id: 5, content: "Hello, how can I help you?", sender: "bot" },
-    { id: 6, content: "Hi! How can I assist you today?", sender: "user" },
-  ])
+  const [messages, setMessages] = useState<Message[]>(currentLLM?.message)
+  useEffect(() => {
+    setMessages(currentLLM?.message ?? [])
+  }, [currentLLM])
 
   const handleSendMessage = async() => {
     if (inputMessage.trim() === "") return;
@@ -125,7 +123,8 @@ const Chat: React.FC = () => {
   
     const full_prompt = `Give response to ${inputMessage.trim()}`;
     const system_prompt = "You are a helpful, respectful and honest assistant. Always answer as helpfully as possible, while being safe. Your answers should not include any harmful, unethical, racist, sexist, toxic, dangerous, or illegal content. Please ensure that your responses are socially unbiased and positive in nature.\n\nIf a question does not make any sense, or is not factually coherent, explain why instead of answering something not correct. If you don't know the answer to a question, please don't share false information.";
-    const result = await getResponse({ prompt: full_prompt, temperature: (temperature/100), system_prompt: system_prompt, type: LLM });
+    const result = await getResponse({ prompt: full_prompt, temperature: (temperature/100), system_prompt: currentLLM?.prompt ? currentLLM.prompt : system_prompt, type: currentLLM?.type === "Creative" ? "Image" : model });
+
     const response: Message = {
       id: messages.length + 1,
       content: typeof result === 'string' ? result.trim() : "Some Error...",
@@ -136,7 +135,7 @@ const Chat: React.FC = () => {
 
   const [temperature, setTemperature] = useState<number>(40);
 
-  const [LLM, setLLM] = useState<LLMProps>("ChatGPT");
+  const [model, setModel] = useState<LLMProps>("ChatGPT");
 
   return (
     <div className="flex">
@@ -144,18 +143,18 @@ const Chat: React.FC = () => {
         <Sidebar />
       </div>
       <div className="w-[93vw] flex bg-black overflow-y-hidden">
-        <ModelSidebar />
+        <ModelSidebar currentLLM={currentLLM} />
 
         <div className="container mx-auto max-w-2xl p-4">
 
           <div className="flex text-white w-fit mx-auto gap-2">
             <img
-              src={ImageUrl.Kitten}
+              src={currentLLM.image}
               alt="kitten"
               className="w-14 h-14 rounded-md mx-auto"
             />
             <h1 className="text-2xl font-bold text-center mt-2">
-              GUI GPT API prompt generator
+              {currentLLM.name}
             </h1>
           </div>
 
@@ -177,7 +176,7 @@ const Chat: React.FC = () => {
                   )}
                   {message.sender !== "user" && (
                     <img
-                      src={ImageUrl.Kitten}
+                      src={currentLLM?.image}
                       alt="kitten"
                       className="w-10 h-10 rounded-full mr-4"
                     />
@@ -186,7 +185,7 @@ const Chat: React.FC = () => {
                   <div
                     className={`p-4 w-fit gray-bg rounded-b-md ${message.sender === "user" ? "rounded-tl-md" : "rounded-tr-md"}`}
                   >
-                    {message.content}
+                    {currentLLM?.type === "Creative" && message.sender === "bot" ? <img src={`data:image/png;base64,${message.content}`} alt="image" />: message.content}
                   </div>
                 </div>
               ))}
@@ -216,7 +215,7 @@ const Chat: React.FC = () => {
 
         </div>
 
-        <ModelDescription temperature={temperature} setTemperature={setTemperature} LLM={LLM} setLLM={setLLM} />
+        <ModelDescription temperature={temperature} setTemperature={setTemperature} model={model} setModel={setModel} llm={currentLLM} />
       </div>
     </div>
   )

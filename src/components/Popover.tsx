@@ -11,9 +11,9 @@ import {
 } from "@/components/ui/select"
 import { LLMProps } from "@/enum/enums"
 
-export function SelectDemo({ LLM, selectLLM}:{LLM:string, selectLLM:React.Dispatch<React.SetStateAction<LLMProps>>}) {
+export function SelectDemo({ model, selectModel}:{model:string, selectModel:React.Dispatch<React.SetStateAction<LLMProps>>}) {
   return (
-    <Select onValueChange={(value: LLMProps) => selectLLM(value)} value={LLM}>
+    <Select onValueChange={(value: LLMProps) => selectModel(value)} value={model}>
         <SelectTrigger className="w-[140px] dark-gray-bg text-white">
             <SelectValue placeholder="ChatGPT" />
         </SelectTrigger>

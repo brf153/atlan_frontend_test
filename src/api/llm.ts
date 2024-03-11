@@ -31,6 +31,8 @@ type Response = {
   type: LLMProps
 }
 
+// https://stablediffusionapi.com/api/v3/text2img
+
 export async function getResponse(props: Response): Promise<string | Error> {
   try {
     switch (props.type) {
@@ -150,6 +152,31 @@ export async function getResponse(props: Response): Promise<string | Error> {
         }
         const responseLlama = await llamaAPI.run(apiRequestJson)
         return responseLlama.choices[0].message.content
+      case "Image":
+        const responseImage = await axios.post(
+          "https://api.stability.ai/v1/generation/stable-diffusion-xl-1024-v1-0/text-to-image",
+          {
+            text_prompts: [
+              {
+                "text": props.prompt,
+                "weight": 1
+              },
+              {
+                "text": "blurry, bad",
+                "weight": -1
+              }
+            ],
+          },
+          {
+            headers: {
+              Accept: "application/json",
+              Authorization:
+                "Bearer sk-2pCqJ5oKvcAIFiiukvDwmHvOZTRfIcSfXwbUHguxeFsGqMgW",
+            },
+          },
+        )
+        console.log("image check", responseImage)
+        return responseImage.data.artifacts[0].base64
       default:
         throw new Error("Invalid response type")
     }

@@ -2,18 +2,79 @@ import Layout from "@/layout/Layout"
 import { CustomDropdownMenu } from "@/components/DropDown"
 import { CardCollect } from "@/components/Carousel"
 import { CardLLM } from "@/components/Card"
-import { CardLLMData, CardLLMDataBottom, HeaderData } from "@/db/data"
+import { HeaderData, LLMData, LLMDataProps, LLMDataTop } from "@/db/data"
 import { FaRegImage } from "react-icons/fa6"
 import { IoIosText } from "react-icons/io"
 import { IoFilter } from "react-icons/io5"
-import { GrPowerReset } from "react-icons/gr";
+import { GrPowerReset } from "react-icons/gr"
+import { useDispatch } from "react-redux"
+import {setCurrentLLM, selectCurrentLLM, selectAvailableLLMs} from '@/features/llm/llmSlice';
+import { useNavigate } from "react-router-dom"
+import { useState } from "react"
+import {useAppSelector} from '@/app/hooks';
 
 const Home = () => {
   const items = [
-    { icon: <FaRegImage style={{ fill: "url(#blue-gradient)", stroke: "url(#blue-gradient)" }} className="mr-2 h-4 w-4"/>, label: "Image Generation" },
-    { icon: <IoIosText style={{ fill: "url(#blue-gradient)", stroke: "url(#blue-gradient)" }} className="mr-2 h-4 w-4"/>, label: "Text Generation" },
-    { icon: <GrPowerReset style={{ fill: "url(#blue-gradient)", stroke: "url(#blue-gradient)" }} className="mr-2 h-4 w-4"/>, label: "Default" },
-  ];
+    {
+      icon: (
+        <FaRegImage
+          style={{ fill: "url(#blue-gradient)", stroke: "url(#blue-gradient)" }}
+          className="mr-2 h-4 w-4"
+        />
+      ),
+      label: "Image Generation",
+    },
+    {
+      icon: (
+        <IoIosText
+          style={{ fill: "url(#blue-gradient)", stroke: "url(#blue-gradient)" }}
+          className="mr-2 h-4 w-4"
+        />
+      ),
+      label: "Text Generation",
+    },
+    {
+      icon: (
+        <GrPowerReset
+          style={{ fill: "url(#blue-gradient)", stroke: "url(#blue-gradient)" }}
+          className="mr-2 h-4 w-4"
+        />
+      ),
+      label: "Default",
+    },
+  ]
+
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const avalaibleLLM = useAppSelector(selectAvailableLLMs);
+
+  // const handleClick = (selectedLLM:LLMDataProps) => {
+  //   dispatch(setCurrentLLM(selectedLLM));
+  //   if (currentLLM) { // Check if currentLLM is updated
+  //     navigate("/chat");
+  //   }
+  // }
+
+  const handleClick = (selectedLLM: LLMDataProps) => {
+    Promise.resolve()
+      .then(() => dispatch(setCurrentLLM(selectedLLM)))
+      .then(() => navigate("/chat"))
+  }
+
+  const [data, setData] = useState({
+    bool: false,
+    type: "",
+  })
+
+  const handleData = (e: any) => {
+    console.log("Data", e.target.innerText)
+    if (e.target.innerText === "Latest") {
+      setData({ bool: false, type: "" })
+    } else {
+      setData({ bool: true, type: e.target.innerText })
+    }
+  }
+
   return (
     <Layout>
       <div className="bg-black w-[93vw] overflow-x-hidden px-4">
@@ -26,12 +87,18 @@ const Home = () => {
 
         <div className="flex">
           <div className="flex px-4 py-4">
-          <CustomDropdownMenu items={items} triggerIcon={<IoFilter className='h-5 w-5'/>} />
+            <CustomDropdownMenu
+              items={items}
+              triggerIcon={<IoFilter className="h-5 w-5" />}
+              setData={setData}
+            />
           </div>
+
           {HeaderData.map((data, index) => (
             <div
               key={index}
               className="flex px-4 py-4 cursor-pointer hover:bg-black hover:opacity-80"
+              onClick={e => handleData(e)}
             >
               <div className="dark-bg text-white w-auto h-[2.2rem] p-2 flex gap-1 justify-center align-middle rounded-md">
                 <data.icon
@@ -47,13 +114,14 @@ const Home = () => {
           ))}
         </div>
 
-        <div className="px-4 flex gap-4 h-[50%]">
+        <div className={`${data.bool ? "hidden" : " px-4 flex gap-4 h-[50%]"}`}>
           <CardCollect />
           <div className="grid grid-cols-2 lg:grid-cols-3 w-[70%] px-4">
-            {CardLLMData.map((card, index) => (
+            {LLMDataTop.map((card, index) => (
               <div
                 key={index}
-                className={`relative flex justify-center items-center ${index >= 2 && "hidden lg:block"}`}
+                className={`relative flex justify-center items-center cursor-pointer ${index >= 2 && "hidden lg:block"}`}
+                onClick={() => handleClick(card)}
               >
                 <CardLLM key={index} card={card} />
               </div>
@@ -61,13 +129,43 @@ const Home = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 p-4">
-          {CardLLMDataBottom.map((card, index) => (
+        <div
+          className={`${data.bool ? "hidden" : "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 p-4"} `}
+        >
+          {/* Repeat LLMData three times */}
+          {Array(3)
+            .fill(null)
+            .map((_, outerIndex) => (
+              <>
+                {avalaibleLLM.map((card, index) => (
+                  <div
+                    key={`${outerIndex}-${index}`}
+                    className={`relative flex justify-center items-center cursor-pointer`}
+                    onClick={() => handleClick(card)}
+                  >
+                    <CardLLM key={index} card={card} />
+                  </div>
+                ))}
+              </>
+            ))}
+        </div>
+
+        <div
+          className={`${data.bool ? "flex gap-4 p-4 bg-black h-[81vh]" : "hidden"}`}
+        >
+          {avalaibleLLM.map((card, index) => (
             <div
               key={index}
-              className={`relative flex justify-center items-center`}
+              className={`relative cursor-pointer`}
+              onClick={() => handleClick(card)}
             >
-              <CardLLM key={index} card={card} />
+              {data.type === "Text Generation"
+                ? card.type !== "Creative" && (
+                    <CardLLM key={index} card={card} />
+                  )
+                : card.type === data.type && (
+                    <CardLLM key={index} card={card} />
+                  )}
             </div>
           ))}
         </div>

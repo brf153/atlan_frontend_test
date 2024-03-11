@@ -7,18 +7,12 @@ import {
   CardContent,
 } from "@/components/ui/card"
 import {IoIosColorPalette} from 'react-icons/io';
-import { IconType } from "react-icons";
 import { formatNumber } from "@/utils/utils";
+import {LLMDataProps} from '@/db/data';
+import {RiComputerLine} from 'react-icons/ri';
+import { RiBook2Line } from "react-icons/ri";
 
-type CardLLMProps = {
-  title: string,
-  image: string,
-  likes: number,
-  views: number,
-  icon: IconType
-}
-
-export function CardLLM({card}:{card: CardLLMProps}) {
+export function CardLLM({card}:{card: LLMDataProps}) {
   return (
     <>
     <svg width="0" height="0">
@@ -34,9 +28,11 @@ export function CardLLM({card}:{card: CardLLMProps}) {
     <div className="w-fit h-4 z-20 text-white absolute top-2 left-3 right-0 p-4 rounded-sm dark-bg opacity-80">
       <div className="flex relative bottom-3 w-auto gap-2">
         <div className="w-[15%]">
-          <card.icon style={{ fill: "url(#blue-gradient)", stroke: "url(#blue-gradient)" }} className="text-xl relative top-[1px]" />
+          {card.type === "Creative" && <IoIosColorPalette style={{ fill: "url(#blue-gradient)", stroke: "url(#blue-gradient)" }} className="text-xl relative top-[1px]" />}
+          {card.type === "Programming" && <RiComputerLine style={{ fill: "url(#blue-gradient)", stroke: "url(#blue-gradient)" }} className="text-xl relative top-[1px]" />}
+          {card.type === "Academic" && <RiBook2Line style={{ fill: "url(#blue-gradient)", stroke: "url(#blue-gradient)" }} className="text-xl relative top-[1px]" />}
         </div>
-        <p className="relative bottom-[1px] font-light">{card.title}</p>
+        <p className="relative bottom-[1px] font-light">{card.type}</p>
       </div>
     </div>
 

@@ -8,7 +8,21 @@ import {
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
 
-export function CustomDropdownMenu({ items, triggerIcon, dropdownMenuClassName }: { items: { icon: JSX.Element; label: string }[]; triggerIcon: JSX.Element; dropdownMenuClassName?: string }) {
+export function CustomDropdownMenu({ items, triggerIcon, setData }: { items: { icon: JSX.Element; label: string }[]; triggerIcon: JSX.Element, setData: React.Dispatch<React.SetStateAction<{
+  bool: boolean;
+  type: string;
+}>>}) {
+  const handleClick = (e: any) => {
+    console.log("Data", e.target.innerText);
+    if (e.target.innerText === "Image Generation") {
+      setData({ bool: true, type: "Creative" });
+    } else if(e.target.innerText === "Text Generation"){
+      setData({ bool: true, type: e.target.innerText });
+    }
+    else{
+      setData({ bool: false, type: "" });
+    }
+  };
   return (
     <>
       <svg width="0" height="0">
@@ -24,10 +38,10 @@ export function CustomDropdownMenu({ items, triggerIcon, dropdownMenuClassName }
             {triggerIcon}
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className={`w-48 dark-bg text-white ${dropdownMenuClassName}`}>
+        <DropdownMenuContent className={`w-48 dark-bg text-white`}>
           <DropdownMenuGroup>
             {items.map((item, index) => (
-              <DropdownMenuItem key={index}>
+              <DropdownMenuItem className="cursor-pointer" key={index} onClick={(e)=>handleClick(e)}>
                 {item.icon}
                 <span>{item.label}</span>
               </DropdownMenuItem>

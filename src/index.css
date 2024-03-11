@@ -19,8 +19,16 @@
   background-color: rgb(104 106 114);
 }
 
+.hover-dark:hover{
+  background-color: rgb(104 106 114);
+}
+
 .dark-gray-bg {
   background-color: rgb(40, 41, 44);
+}
+
+.dark-bg{
+  background-color: rgb(26 27 30);
 }
 
 .rainbow-icon {

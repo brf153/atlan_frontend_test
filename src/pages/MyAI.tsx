@@ -6,12 +6,21 @@ import { useUser } from "@clerk/clerk-react";
 import { formatDate, formatNumber } from '@/utils/utils';
 import backgroundLogo from "@/public/background_myai.jpg"
 import { GoPlus } from "react-icons/go";
+import { DialogDemo } from '@/components/Dialog';
 
 type Props = {}
 
 const MyAI = (props: Props) => {
   const { isSignedIn, user, isLoaded } = useUser();
   const [aiData, setAiData] = React.useState(false)
+  const [showForm, setShowForm] = React.useState(false)
+
+  // const handleClick = () => {
+  //   // setAiData(true)
+  //   setShowForm(!showForm)
+
+  // }
+  
   return (
     <Layout>
     <div className='bg-black w-[93vw] h-[88vh] overflow-x-hidden px-4 flex flex-col gap-8'>
@@ -94,9 +103,8 @@ const MyAI = (props: Props) => {
             ):(
               <Card className='bg-black text-white w-[30%] h-[200px] border-dashed flex flex-col justify-center'>
             
-            <CardContent className='w-fit mx-auto'>
-              <GoPlus className='text-[10vmin]'/>
-              <p className='text-center'>Add AI</p>
+            <CardContent className='w-fit mx-auto cursor-pointer'>
+              <DialogDemo />
             </CardContent>
           </Card>
             )
