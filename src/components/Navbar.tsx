@@ -19,7 +19,7 @@ function Navbar({}: Props) {
         <div className="flex w-auto justify-between">
           <SignedOut>
           <SignInButton>
-            <button className='dark-gray-bg text-white sm:p-3 text-[2vmin] rounded-full flex w-fit gap-2'>
+            <button className='dark-gray-bg text-white hover:text-black hover:bg-white sm:p-3 text-[2vmin] rounded-full flex w-fit gap-2'>
               <FaRegUserCircle className='mt-1'/>
               <p>Sign In</p>
             </button>
