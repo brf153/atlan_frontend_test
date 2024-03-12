@@ -132,7 +132,7 @@ const MyAI = (props: Props) => {
 
     <SignedOut>
       <Layout>
-        <div className="w-full h-[88vh] text-white bg-black flex justify-center items-center">
+        <div className="w-full h-[90vh] text-white bg-black flex justify-center items-center">
           <div className="flex flex-col gap-2">
               <FaRegUserCircle className="text-9xl mx-auto" />
               <p>Please sign in to view this page.</p>

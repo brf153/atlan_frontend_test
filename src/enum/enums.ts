@@ -47,7 +47,7 @@ export enum ImageUrl{
     Book = "https://res.cloudinary.com/dofq9gh9l/image/upload/v1710098218/avatars/ghyar9rzvaulicg9suhw.avif"
 }
 
-export type LLMProps = "ChatGPT" | "Llama" | "Replit" | "EleutharAI" | "Cohere" | "Goose" | "Image";
+export type LLMProps = "ChatGPT" | "Llama" | "Replit" | "EleutharAI" | "Goose" | "Image";
 
 export const InitialMessage = "Hello, how can I help you?"
 

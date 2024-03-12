@@ -5,7 +5,7 @@ import axios from "axios"
 import { LLMProps } from "@/enum/enums"
 import LlamaAI from "llamaai"
 
-console.log("check api", import.meta.env.VITE_OPENAI_API_KEY)
+console.log("check api", import.meta.env.VITE_OPENAI_API_KEY, import.meta.env.VITE_REPLICATE_API_KEY, import.meta.env.VITE_GOOSE_API_KEY, import.meta.env.VITE_LLAMA, import.meta.env.VITE_IMAGE)
 const openai = new OpenAI({
   apiKey: import.meta.env.VITE_OPENAI_API_KEY,
   dangerouslyAllowBrowser: true,

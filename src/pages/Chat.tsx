@@ -12,9 +12,9 @@ import { CustomDropdownMenu } from "@/components/DropDown"
 import { FaRegImage } from "react-icons/fa6"
 import { GrPowerReset } from "react-icons/gr"
 import { IoFilter } from "react-icons/io5"
-import { SelectDemo } from "@/components/Popover"
+import { SelectComponent } from "@/components/Popover"
 import { IoMdSettings } from "react-icons/io"
-import { SliderDemo } from "@/components/Slider"
+import { SliderComponent } from "@/components/Slider"
 import { getResponse } from "@/api/llm"
 import { useSelector, useDispatch } from "react-redux"
 import {
@@ -100,14 +100,14 @@ const ModelDescription = ({
           <IoMdSettings className="mt-1" />
           <p>Model</p>
         </div>
-        <SelectDemo model={model} selectModel={setModel} />
+        <SelectComponent model={model} selectModel={setModel} />
       </div>
       <div className="text-white px-4 flex flex-col gap-4 mt-2">
         <p className="flex justify-between text-gray-300">
           <span>Temparature</span>
           <span>{temperature / 100}</span>
         </p>
-        <SliderDemo
+        <SliderComponent
           value={[temperature]}
           onValueChange={e => setTemperature(e[0])}
         />
@@ -275,7 +275,7 @@ const Chat: React.FC = () => {
 
     <SignedOut>
       <Layout>
-        <div className="w-full h-[88vh] text-white bg-black flex justify-center items-center">
+        <div className="w-full h-[90vh] text-white bg-black flex justify-center items-center">
           <div className="flex flex-col gap-2">
               <FaRegUserCircle className="text-9xl mx-auto" />
               <p>Please sign in to view this page.</p>
