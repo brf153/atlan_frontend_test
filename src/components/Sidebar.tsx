@@ -61,7 +61,7 @@ const Sidebar = () => {
         {SidebarIcons.map((data, index) => (
             <div key={index} className='w-full flex justify-center'>
                 <Link to={data.url}>
-                <div className='flex flex-col items-center justify-center h-20 w-20 rounded-full hover:bg-white hover:text-black cursor-pointer'>
+                <div className='flex flex-col items-center justify-center h-16 w-16 my-3 rounded-full hover:bg-white hover:text-black cursor-pointer'>
                     <data.icon className='h-6 w-6'/>
                     <p className='text-sm font-light'>{data.title}</p>
                 </div>
