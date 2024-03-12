@@ -6,26 +6,17 @@ import { LLMProps } from "@/enum/enums"
 import LlamaAI from "llamaai"
 
 console.log("check api", import.meta.env.VITE_OPENAI_API_KEY)
-
 const openai = new OpenAI({
-  // apiKey: "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",
-  apiKey: import.meta.env.OPENAI_API_KEY,
+  apiKey: import.meta.env.VITE_OPENAI_API_KEY,
   dangerouslyAllowBrowser: true,
 })
 
 const replicate = new Replicate({
-  // auth: "r8_M5D2PeVUVhlNzpVSOa86G0yrsHc0rFd3SAJnE",
-  auth: import.meta.env.REPLICATE_API_KEY,
+  auth: import.meta.env.VITE_REPLICATE_API_KEY,
 })
 
-// const cohere = new CohereClient({
-//   // token: "rjr3g8gRU0cDMWT28PUUjMt2EvpiRPNZoNYTm4Oh",
-//   token: import.meta.env.COHERE_API_KEY,
-// })
-
 const llamaAPI = new LlamaAI(
-  // "LL-zqD84AlfPnCTtD3VK68QQWWgDxYbNL8A6kx1Lnr4lCfs8ldLDX8ahvlj6onDGhqD",
-  import.meta.env.LLAMA,
+  import.meta.env.VITE_LLAMA,
 )
 
 type Response = {
@@ -82,8 +73,7 @@ export async function getResponse(props: Response): Promise<string | Error> {
           },
           {
             headers: {
-              Authorization: `Bearer ${import.meta.env.GOOSE_API_KEY}`,
-                // "Bearer sk-4Q04Nd1l4JfYCFHTYnaUDsFSOyNeT7ygzMsIwOkjwiQFdQ0k",
+              Authorization: `Bearer ${import.meta.env.VITE_GOOSE_API_KEY}`,
 
             },
           },
@@ -101,8 +91,7 @@ export async function getResponse(props: Response): Promise<string | Error> {
           },
           {
             headers: {
-              Authorization: `Bearer ${import.meta.env.GOOSE_API_KEY}`,
-                // "Bearer sk-4Q04Nd1l4JfYCFHTYnaUDsFSOyNeT7ygzMsIwOkjwiQFdQ0k",
+              Authorization: `Bearer ${import.meta.env.VITE_GOOSE_API_KEY}`,
             },
           },
         )
@@ -169,8 +158,7 @@ export async function getResponse(props: Response): Promise<string | Error> {
           {
             headers: {
               Accept: "application/json",
-              Authorization: `Bearer ${import.meta.env.IMAGE}`,
-                // "Bearer sk-2pCqJ5oKvcAIFiiukvDwmHvOZTRfIcSfXwbUHguxeFsGqMgW",
+              Authorization: `Bearer ${import.meta.env.VITE_IMAGE}`,
             },
           },
         )
