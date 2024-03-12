@@ -1,26 +1,29 @@
 import Replicate from "replicate"
 import OpenAI from "openai"
 import axios from "axios"
-import { CohereClient } from "cohere-ai"
+// import { CohereClient } from "cohere-ai"
 import { LLMProps } from "@/enum/enums"
 import LlamaAI from "llamaai"
 
 const openai = new OpenAI({
-  // apiKey: process.env["OPENAI_API_KEY"],
-  apiKey: "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",
+  // apiKey: "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",
+  apiKey: process.env.OPENAI_API_KEY,
   dangerouslyAllowBrowser: true,
 })
 
 const replicate = new Replicate({
-  auth: "r8_M5D2PeVUVhlNzpVSOa86G0yrsHc0rFd3SAJnE",
+  // auth: "r8_M5D2PeVUVhlNzpVSOa86G0yrsHc0rFd3SAJnE",
+  auth: process.env.REPLICATE_API_KEY,
 })
 
-const cohere = new CohereClient({
-  token: "rjr3g8gRU0cDMWT28PUUjMt2EvpiRPNZoNYTm4Oh",
-})
+// const cohere = new CohereClient({
+//   // token: "rjr3g8gRU0cDMWT28PUUjMt2EvpiRPNZoNYTm4Oh",
+//   token: process.env.COHERE_API_KEY,
+// })
 
 const llamaAPI = new LlamaAI(
-  "LL-zqD84AlfPnCTtD3VK68QQWWgDxYbNL8A6kx1Lnr4lCfs8ldLDX8ahvlj6onDGhqD",
+  // "LL-zqD84AlfPnCTtD3VK68QQWWgDxYbNL8A6kx1Lnr4lCfs8ldLDX8ahvlj6onDGhqD",
+  process.env.LLAMA,
 )
 
 type Response = {
@@ -77,8 +80,9 @@ export async function getResponse(props: Response): Promise<string | Error> {
           },
           {
             headers: {
-              Authorization:
-                "Bearer sk-4Q04Nd1l4JfYCFHTYnaUDsFSOyNeT7ygzMsIwOkjwiQFdQ0k",
+              Authorization: `Bearer ${process.env.GOOSE_API_KEY}`,
+                // "Bearer sk-4Q04Nd1l4JfYCFHTYnaUDsFSOyNeT7ygzMsIwOkjwiQFdQ0k",
+
             },
           },
         )
@@ -95,18 +99,12 @@ export async function getResponse(props: Response): Promise<string | Error> {
           },
           {
             headers: {
-              Authorization:
-                "Bearer sk-4Q04Nd1l4JfYCFHTYnaUDsFSOyNeT7ygzMsIwOkjwiQFdQ0k",
+              Authorization: `Bearer ${process.env.GOOSE_API_KEY}`,
+                // "Bearer sk-4Q04Nd1l4JfYCFHTYnaUDsFSOyNeT7ygzMsIwOkjwiQFdQ0k",
             },
           },
         )
         return responseEleuthar.data.choices[0].text
-      case "Cohere":
-        const prediction = await cohere.generate({
-          prompt: "hello",
-          maxTokens: 10,
-        })
-        return prediction.generations[0].text
       case "Llama":
         // Build the Request
         const apiRequestJson = {
@@ -169,8 +167,8 @@ export async function getResponse(props: Response): Promise<string | Error> {
           {
             headers: {
               Accept: "application/json",
-              Authorization:
-                "Bearer sk-2pCqJ5oKvcAIFiiukvDwmHvOZTRfIcSfXwbUHguxeFsGqMgW",
+              Authorization: `Bearer ${process.env.IMAGE}`,
+                // "Bearer sk-2pCqJ5oKvcAIFiiukvDwmHvOZTRfIcSfXwbUHguxeFsGqMgW",
             },
           },
         )
