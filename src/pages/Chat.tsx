@@ -23,8 +23,8 @@ import {
   selectAvailableLLMs,
 } from "@/slice/llmSlice"
 import { useAppSelector } from "@/app/hooks"
-import Layout from '@/layout/Layout';
-import {FaRegUserCircle} from 'react-icons/fa';
+import Layout from "@/layout/Layout"
+import { FaRegUserCircle } from "react-icons/fa"
 
 const ModelSidebar = ({ currentLLM }: { currentLLM: LLMDataProps }) => {
   const dispatch = useDispatch()
@@ -158,7 +158,7 @@ const Chat: React.FC = () => {
       content: typeof result === "string" ? result.trim() : "Some Error...",
       sender: "bot",
     }
-    
+
     setMessages(prevMessages => [...prevMessages, response])
   }
 
@@ -168,55 +168,54 @@ const Chat: React.FC = () => {
 
   return (
     <>
-    <SignedIn>
-    <div className="flex">
-      <div className="hidden sm:flex w-[7vw]">
-        <Sidebar />
-      </div>
-      <div className="w-screen sm:w-[93vw] flex bg-black overflow-y-hidden">
-        <ModelSidebar currentLLM={currentLLM} />
-
-        <div className="container mx-auto max-w-2xl p-4">
-          <div className="flex text-white w-fit mx-auto gap-2">
-            <img
-              src={currentLLM.image}
-              alt="kitten"
-              className="w-14 h-14 rounded-md mx-auto"
-            />
-            <h1 className="text-lg mt-3 sm:text-2xl font-bold text-center sm:mt-2">
-              {currentLLM.name}
-            </h1>
+      <SignedIn>
+        <div className="flex">
+          <div className="hidden sm:flex w-[7vw]">
+            <Sidebar />
           </div>
+          <div className="w-screen sm:w-[93vw] flex bg-black overflow-y-hidden">
+            <ModelSidebar currentLLM={currentLLM} />
 
-          <Separator className="mt-4" />
+            <div className="container mx-auto max-w-2xl p-4">
+              <div className="flex text-white w-fit mx-auto gap-2">
+                <img
+                  src={currentLLM.image}
+                  alt="kitten"
+                  className="w-14 h-14 rounded-md mx-auto"
+                />
+                <h1 className="text-lg mt-3 sm:text-2xl font-bold text-center sm:mt-2">
+                  {currentLLM.name}
+                </h1>
+              </div>
 
-          <div className="h-[86vh] mt-4 flex flex-col justify-between relative">
-            <div className="relative flex flex-col gap-4 h-[95%] overflow-y-scroll chatbar">
-              {messages.map(message => (
-                <div
-                  key={message.id}
-                  className={`message flex ${message.sender === "user" ? "user-message text-white justify-start flex-row-reverse gap-2" : "bot-message text-white"}`}
-                >
-                  {message.sender === "user" && (
-                    <img
-                      src={user?.imageUrl}
-                      alt="user profile"
-                      className="w-10 h-10 rounded-full mr-4"
-                    />
-                  )}
-                  {message.sender !== "user" && (
-                    <img
-                      src={currentLLM?.image}
-                      alt="kitten"
-                      className="w-10 h-10 rounded-full mr-4"
-                    />
-                  )}
+              <Separator className="mt-4" />
 
-                  <div
-                    className={`p-4 w-fit gray-bg rounded-b-md ${message.sender === "user" ? "rounded-tl-md" : "rounded-tr-md"}`}
-                  >
-          
-                    {currentLLM?.type === "Creative" &&
+              <div className="h-[86vh] mt-4 flex flex-col justify-between relative">
+                <div className="relative flex flex-col gap-4 h-[95%] overflow-y-scroll chatbar">
+                  {messages.map(message => (
+                    <div
+                      key={message.id}
+                      className={`message flex ${message.sender === "user" ? "user-message text-white justify-start flex-row-reverse gap-2" : "bot-message text-white"}`}
+                    >
+                      {message.sender === "user" && (
+                        <img
+                          src={user?.imageUrl}
+                          alt="user profile"
+                          className="w-10 h-10 rounded-full mr-4"
+                        />
+                      )}
+                      {message.sender !== "user" && (
+                        <img
+                          src={currentLLM?.image}
+                          alt="kitten"
+                          className="w-10 h-10 rounded-full mr-4"
+                        />
+                      )}
+
+                      <div
+                        className={`p-4 w-fit gray-bg rounded-b-md ${message.sender === "user" ? "rounded-tl-md" : "rounded-tr-md"}`}
+                      >
+                        {/* {currentLLM?.type === "Creative" &&
                     message.sender === "bot" ? (
                       currentLLM.message[0].content === "WaveBase64" ? (
                         <img
@@ -231,58 +230,70 @@ const Chat: React.FC = () => {
                       )
                     ) : (
                       message.content
-                    )}
+                    )} */}
 
-                   
-                  </div>
+                        <div
+                          className={`p-4 w-fit gray-bg rounded-b-md ${message.sender === "user" ? "rounded-tl-md" : "rounded-tr-md"}`}
+                        >
+                          {currentLLM?.type === "Creative" &&
+                          message.sender === "bot" ? (
+                            <img
+                              src={`data:image/png;base64,${message.content}`}
+                              alt="image"
+                            />
+                          ) : (
+                            message.content
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              ))}
+
+                <div className="flex mt-4 fixed bottom-4 left-[8%] sm:left-[37%] xl:left-auto sm:bottom-2 sm:w-[59vw] lg:w-[40vw]">
+                  <input
+                    type="text"
+                    value={inputMessage}
+                    onChange={e => setInputMessage(e.target.value)}
+                    className="flex-1 rounded-lg w-[40vw] sm:left-[50%] xl:w-auto p-2 border border-gray-300 focus:outline-none"
+                    placeholder="Type your message..."
+                    onKeyDown={e => {
+                      if (e.key === "Enter" && inputMessage.trim() !== "") {
+                        handleSendMessage()
+                      }
+                    }}
+                  />
+                  <button
+                    className="text-black px-2 py-2 sm:px-4 sm:py-2 absolute right-0 mt-[1px]"
+                    onClick={handleSendMessage}
+                  >
+                    <IoMdSend className="text-2xl" />
+                  </button>
+                </div>
+              </div>
             </div>
 
-            <div className="flex mt-4 fixed bottom-4 left-[8%] sm:left-[37%] xl:left-auto sm:bottom-2 sm:w-[59vw] lg:w-[40vw]">
-              <input
-                type="text"
-                value={inputMessage}
-                onChange={e => setInputMessage(e.target.value)}
-                className="flex-1 rounded-lg w-[40vw] sm:left-[50%] xl:w-auto p-2 border border-gray-300 focus:outline-none"
-                placeholder="Type your message..."
-                onKeyDown={e => {
-                  if (e.key === "Enter" && inputMessage.trim() !== "") {
-                    handleSendMessage()
-                  }
-                }}
-              />
-              <button
-                className="text-black px-2 py-2 sm:px-4 sm:py-2 absolute right-0 mt-[1px]"
-                onClick={handleSendMessage}
-              >
-                <IoMdSend className="text-2xl" />
-              </button>
-            </div>
+            <ModelDescription
+              temperature={temperature}
+              setTemperature={setTemperature}
+              model={model}
+              setModel={setModel}
+              llm={currentLLM}
+            />
           </div>
         </div>
+      </SignedIn>
 
-        <ModelDescription
-          temperature={temperature}
-          setTemperature={setTemperature}
-          model={model}
-          setModel={setModel}
-          llm={currentLLM}
-        />
-      </div>
-    </div>
-    </SignedIn>
-
-    <SignedOut>
-      <Layout>
-        <div className="w-full h-[90vh] text-white bg-black flex justify-center items-center">
-          <div className="flex flex-col gap-2">
+      <SignedOut>
+        <Layout>
+          <div className="w-full h-[90vh] text-white bg-black flex justify-center items-center">
+            <div className="flex flex-col gap-2">
               <FaRegUserCircle className="text-9xl mx-auto" />
               <p>Please sign in to view this page.</p>
+            </div>
           </div>
-        </div>
-      </Layout>
-    </SignedOut>
+        </Layout>
+      </SignedOut>
     </>
   )
 }
