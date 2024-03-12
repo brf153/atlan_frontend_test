@@ -239,7 +239,7 @@ const Chat: React.FC = () => {
               ))}
             </div>
 
-            <div className="flex mt-4 fixed bottom-4 left-[8%] sm:left-[37%] xl:left-auto sm:bottom-2 sm:w-[59vw]">
+            <div className="flex mt-4 fixed bottom-4 left-[8%] sm:left-[37%] xl:left-auto sm:bottom-2 sm:w-[59vw] lg:w-[40vw]">
               <input
                 type="text"
                 value={inputMessage}
