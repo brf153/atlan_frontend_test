@@ -23,11 +23,11 @@ const CarouselItemData = [
 
 export function CardCarousel() {
   return (
-<Carousel infiniteLoop={true} autoPlay={true} className="w-full max-w-lg md:h-[46vh]">
+<Carousel infiniteLoop={true} autoPlay={true} className="w-full max-w-lg md:h-[46vh] lg:h-[37vh]">
     {CarouselItemData.map((item, index) => {
       return (
-        <div key={index} className="h-full flex">
-          <img className="h-[35vh] md:h-[46vh] mt-4 w-auto rounded-lg object-cover" src={item.image} />
+        <div key={index} className="h-full flex overflow-hidden">
+          <img className="h-[35vh] md:h-[46vh] lg:h-[37vh] mt-4 w-auto rounded-lg object-cover" src={item.image} />
           <p className="legend">{item.legend}</p>
         </div>
       )

@@ -142,10 +142,10 @@ const Home = () => {
             </div>
 
             <div
-              className={`${data.bool ? "hidden" : "px-4 flex gap-4 sm:h-[50%]"}`}
+              className={`${data.bool ? "hidden" : "px-4 flex gap-4 sm:h-[50%] lg:h-fit"}`}
             >
               <CardCarousel />
-              <div className="hidden sm:mt-6 sm:grid sm:grid-cols-2 sm:gap-2 xl:grid-cols-3 gap-y-6 h-fit my-auto w-[70%] px-4">
+              <div className="hidden sm:mt-6 sm:grid sm:grid-cols-2 sm:gap-2 xl:grid-cols-3 gap-y-6 h-fit my-auto w-[70%]">
                 {availableLLM.slice(0, 6).map((card, index) => (
                   <div
                     key={index}
@@ -159,7 +159,7 @@ const Home = () => {
             </div>
 
             <div
-              className={`${data.bool ? "hidden" : "hidden sm:grid sm:grid-cols-2 md:grid-cols-3 sm:mt-6 lg:grid-cols-4 xl:grid-cols-5 gap-4 p-4"} `}
+              className={`${data.bool ? "hidden" : "hidden sm:grid sm:grid-cols-2 md:grid-cols-3 sm:mt-6 lg:grid-cols-4 xl:grid-cols-5 gap-4 px-6"} `}
             >
               {/* Repeat LLMData three times */}
               {Array(3)

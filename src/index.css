@@ -90,6 +90,12 @@
   }
 }
 
+@media (min-width: 1340px) {
+  .card-header{
+    width: 17vw !important;
+  }
+}
+
  
 @layer base {
   :root {

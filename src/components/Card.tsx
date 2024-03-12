@@ -23,7 +23,7 @@ export function CardLLM({card}:{card: LLMDataProps}) {
     </svg>
           
     
-    <Card className="w-[47vw] h-[15vh] sm:w-[20vw] sm:h-[21vh] relative overflow-hidden">
+    <Card className="w-[47vw] h-[15vh] sm:w-[16vw] lg:w-[15vw] lg:h-[16vh] sm:h-[21vh] relative overflow-hidden card-header">
 
     <div className="w-fit h-fit p-1 sm:h-4 z-20 text-white absolute top-2 left-3 right-0 sm:p-4 rounded-sm dark-bg opacity-80">
       <div className="flex sm:relative bottom-3 w-auto gap-2">
@@ -36,11 +36,11 @@ export function CardLLM({card}:{card: LLMDataProps}) {
       </div>
     </div>
 
-      <CardContent>
+      <div>
         <div className="absolute inset-0">
           <img src={card.image} alt="logo" className="absolute inset-0 object-cover w-full h-full" />
         </div>
-      </CardContent>
+      </div>
       <div className="w-[50%] sm:h-[1rem] z-20 text-white absolute bottom-2 left-3 right-0 sm:p-4 rounded-sm">
         <p className="flex justify-between w-fit">
           <p className="flex w-1/2 px-[2px] gap-1 sm:gap-[2px]"><FaPlay className="text-[10px] sm:text-[0.6rem]"/><span className="relative bottom-1 text-sm sm:text-md">{formatNumber(card.views)}</span></p>
