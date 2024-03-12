@@ -7,6 +7,7 @@ import unnamed from "@/public/unnamed.png"
 import logo2 from "@/public/logo2.jpeg"
 import logo from "@/public/logo3.jpg"
 import logo3 from "@/public/logo5.jpg"
+import { FaRegUserCircle } from "react-icons/fa";
 
 type Props = {}
 
@@ -18,7 +19,10 @@ function Navbar({}: Props) {
         <div className="flex w-auto justify-between">
           <SignedOut>
           <SignInButton>
-            <button className='bg-white p-1 text-[2vmin] rounded-full'>Sign In</button>
+            <button className='dark-gray-bg text-white sm:p-3 text-[2vmin] rounded-full flex w-fit gap-2'>
+              <FaRegUserCircle className='mt-1'/>
+              <p>Sign In</p>
+            </button>
           </SignInButton>
         </SignedOut>
 
