@@ -13,7 +13,7 @@ import {
   selectCurrentLLM,
   selectAvailableLLMs,
   setAvailableLLMs,
-} from "@/features/llm/llmSlice"
+} from "@/slice/llmSlice"
 import { useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
 import axiosInstance from "@/api/axios"

@@ -8,7 +8,7 @@ import backgroundLogo from "@/public/background_myai.jpg"
 import { GoPlus } from "react-icons/go"
 import { DialogComponent } from "@/components/Dialog"
 import { useAppDispatch, useAppSelector } from "@/app/hooks"
-import { selectLLMsByCreator, selectAvailableLLMs } from "@/features/llm/llmSlice"
+import { selectLLMsByCreator, selectAvailableLLMs } from "@/slice/llmSlice"
 import { LLMDataProps } from "@/db/data"
 import { CardLLM } from "@/components/Card"
 import { FaRegUserCircle } from "react-icons/fa";

@@ -15,7 +15,7 @@ import { Select } from "./ui/select"
 import { useEffect, useRef, useState } from "react"
 import { LLMDataProps } from "@/db/data"
 import { useDispatch } from "react-redux"
-import {selectAvailableLLMs, setAvailableLLMs, setCurrentLLM, selectLLMsByCreator} from '@/features/llm/llmSlice';
+import {selectAvailableLLMs, setAvailableLLMs, setCurrentLLM, selectLLMsByCreator} from '@/slice/llmSlice';
 import { useAppSelector } from "@/app/hooks"
 import { WaveBase64 } from "@/enum/enums"
 import { useUser } from "@clerk/clerk-react"

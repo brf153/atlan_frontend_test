@@ -21,7 +21,7 @@ import {
   selectCurrentLLM,
   setCurrentLLM,
   selectAvailableLLMs,
-} from "@/features/llm/llmSlice"
+} from "@/slice/llmSlice"
 import { useAppSelector } from "@/app/hooks"
 import Layout from '@/layout/Layout';
 import {FaRegUserCircle} from 'react-icons/fa';
