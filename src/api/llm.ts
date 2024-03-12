@@ -5,25 +5,27 @@ import axios from "axios"
 import { LLMProps } from "@/enum/enums"
 import LlamaAI from "llamaai"
 
+console.log("check api", import.meta.env.VITE_OPENAI_API_KEY)
+
 const openai = new OpenAI({
   // apiKey: "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",
-  apiKey: process.env.OPENAI_API_KEY,
+  apiKey: import.meta.env.OPENAI_API_KEY,
   dangerouslyAllowBrowser: true,
 })
 
 const replicate = new Replicate({
   // auth: "r8_M5D2PeVUVhlNzpVSOa86G0yrsHc0rFd3SAJnE",
-  auth: process.env.REPLICATE_API_KEY,
+  auth: import.meta.env.REPLICATE_API_KEY,
 })
 
 // const cohere = new CohereClient({
 //   // token: "rjr3g8gRU0cDMWT28PUUjMt2EvpiRPNZoNYTm4Oh",
-//   token: process.env.COHERE_API_KEY,
+//   token: import.meta.env.COHERE_API_KEY,
 // })
 
 const llamaAPI = new LlamaAI(
   // "LL-zqD84AlfPnCTtD3VK68QQWWgDxYbNL8A6kx1Lnr4lCfs8ldLDX8ahvlj6onDGhqD",
-  process.env.LLAMA,
+  import.meta.env.LLAMA,
 )
 
 type Response = {
@@ -80,7 +82,7 @@ export async function getResponse(props: Response): Promise<string | Error> {
           },
           {
             headers: {
-              Authorization: `Bearer ${process.env.GOOSE_API_KEY}`,
+              Authorization: `Bearer ${import.meta.env.GOOSE_API_KEY}`,
                 // "Bearer sk-4Q04Nd1l4JfYCFHTYnaUDsFSOyNeT7ygzMsIwOkjwiQFdQ0k",
 
             },
@@ -99,7 +101,7 @@ export async function getResponse(props: Response): Promise<string | Error> {
           },
           {
             headers: {
-              Authorization: `Bearer ${process.env.GOOSE_API_KEY}`,
+              Authorization: `Bearer ${import.meta.env.GOOSE_API_KEY}`,
                 // "Bearer sk-4Q04Nd1l4JfYCFHTYnaUDsFSOyNeT7ygzMsIwOkjwiQFdQ0k",
             },
           },
@@ -167,7 +169,7 @@ export async function getResponse(props: Response): Promise<string | Error> {
           {
             headers: {
               Accept: "application/json",
-              Authorization: `Bearer ${process.env.IMAGE}`,
+              Authorization: `Bearer ${import.meta.env.IMAGE}`,
                 // "Bearer sk-2pCqJ5oKvcAIFiiukvDwmHvOZTRfIcSfXwbUHguxeFsGqMgW",
             },
           },
