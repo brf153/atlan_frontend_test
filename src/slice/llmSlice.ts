@@ -1,5 +1,5 @@
 import { createAppSlice } from '@/app/createAppSlice';
-import { LLMData, LLMDataProps } from '@/db/data';
+import { LLMDataProps } from '@/db/data';
 
 interface LLMState {
   currentLLM?: LLMDataProps; 
