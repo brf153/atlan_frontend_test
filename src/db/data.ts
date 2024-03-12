@@ -123,6 +123,7 @@ export type Message = {
 
 
 export type LLMDataProps = {
+  id: number
   name: string
   description: string
   image: string
@@ -132,7 +133,6 @@ export type LLMDataProps = {
   views: number
   creator: string
   creatorPic: string
-  id: number
   message: Message[]
 }
 

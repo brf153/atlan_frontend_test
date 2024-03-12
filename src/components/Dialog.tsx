@@ -15,47 +15,28 @@ import { Select } from "./ui/select"
 import { useEffect, useRef, useState } from "react"
 import { LLMDataProps } from "@/db/data"
 import { useDispatch } from "react-redux"
-import {
-  selectAvailableLLMs,
-  setAvailableLLMs,
-  setCurrentLLM,
-} from "@/features/llm/llmSlice"
+import {selectAvailableLLMs, setAvailableLLMs, setCurrentLLM, selectLLMsByCreator} from '@/features/llm/llmSlice';
 import { useAppSelector } from "@/app/hooks"
 import { WaveBase64 } from "@/enum/enums"
 import { useUser } from "@clerk/clerk-react"
 
-// const UploadWidget = () =>{
-//     const cloudinaryRef = useRef();
-//     const widgetRef = useRef();
-//         useEffect(()=>{
-//             cloudinaryRef.current = window.cloudinary
-//             widgetRef.current = cloudinaryRef.current.createUploadWidget({
-//                 cloudName: 'dofq9gh9l',
-//                 uploadPreset: 'qdmol9rf'
-//             },function(error,result){
-//                 console.log(result);
-//             });
-//         },[])
-//         return(
-//             <div>
-//                 <button onClick={()=>widgetRef.current.open()}>Upload Image</button>
-//             </div>
-//         )
-//     }
+export function DialogComponent({setAiData}: {setAiData: React.Dispatch<React.SetStateAction<{
+  bool: boolean;
+  data: LLMDataProps[];
+}>>}) {
+  const [selectedValue, setSelectedValue] = useState("") 
+  const [file, setFile] = useState(null) 
+  const [display, setDisplay] = useState(false)
 
-export function DialogDemo() {
-  const [selectedValue, setSelectedValue] = useState("") // Initialize the state for selected value
-  const [file, setFile] = useState(null) // Initialize the state for selected value
-
-  // const handleChangeInput = (event:any) => {
-  //   setSelectedValue(event.target.value); // Update the selected value when an option is selected
-  // };
 
   const dispatch = useDispatch()
 
   const availableLLMs = useAppSelector(selectAvailableLLMs)
 
+  
   const { isSignedIn, user, isLoaded } = useUser()
+  
+  const myLLM = useAppSelector(selectLLMsByCreator(user?.firstName ?? ""))
 
   const handleFile = (e: any) => {
     console.log(e.target.files[0])
@@ -126,17 +107,19 @@ export function DialogDemo() {
 
         const llmsArray = availableLLMs.concat(selectedLLM)
         dispatch(setAvailableLLMs(llmsArray))
+        setDisplay(false)
       })
       .catch(err => {
         console.log(err)
       })
+
     console.log("formdata", formData)
   }
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <div>
+    <Dialog open={display}>
+      <DialogTrigger onClick={()=>setDisplay(true)} asChild>
+        <div className="mt-2 sm:mt-0">
           <GoPlus className="text-[10vmin]" />
           <p className="text-center">Add AI</p>
         </div>
@@ -222,7 +205,7 @@ export function DialogDemo() {
           <DialogFooter>
             <Button
               type="submit"
-              className="bg-white text-black"
+              className="bg-white text-black hover:bg-white hover:text-black"
               onClick={e => handleSubmit(e)}
             >
               Create

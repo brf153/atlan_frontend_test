@@ -21,13 +21,13 @@ const CarouselItemData = [
   },
 ]
 
-export function CardCollect() {
+export function CardCarousel() {
   return (
-<Carousel infiniteLoop={true} autoPlay={true} className="w-full max-w-lg h-full img-pic-1">
+<Carousel infiniteLoop={true} autoPlay={true} className="w-full max-w-lg md:h-[46vh]">
     {CarouselItemData.map((item, index) => {
       return (
-        <div key={index}>
-          <img className="h-[25rem] w-auto rounded-lg object-cover" src={item.image} />
+        <div key={index} className="h-full flex">
+          <img className="h-[35vh] md:h-[46vh] mt-4 w-auto rounded-lg object-cover" src={item.image} />
           <p className="legend">{item.legend}</p>
         </div>
       )

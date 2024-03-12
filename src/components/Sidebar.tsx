@@ -10,6 +10,8 @@ import { FaRegCircleUser } from "react-icons/fa6";
 import { BiUserCircle } from "react-icons/bi";
 import { Data, Links } from '@/enum/enums';
 import { Link } from 'react-router-dom';
+import { MenubarComponent } from './Menubar';
+import { Button } from './ui/button';
 
 type SidebarIconsProps = {
     icon: IconType,
@@ -33,6 +35,21 @@ const SidebarIcons: SidebarIconsProps[] = [{
 
 const Sidebar = () => {
   return (
+    <>
+        <div className='fixed bottom-0 h-[6vh] sm:hidden bg-black z-40 w-full'>
+            <div className='flex'>
+        {SidebarIcons.map((data, index) => (
+            <div key={index} className='w-[90%] flex justify-center '>
+                <Link to={data.url}>
+                <div className='flex flex-col text-white items-center justify-center p-3 hover:bg-white hover:text-black cursor-pointer'>
+                    <data.icon className='h-[5vmin] w-[5vmin]'/>
+                    <p className='text-sm font-bold'>{data.title}</p>
+                </div>
+                </Link>
+            </div>
+        ))}
+        </div>
+        </div>
     <div className='Sidebar'>
         <div className='flex flex-col w-full h-full dark-bg text-white'>
             <div className='flex items-center justify-center mt-4 mb-4'>
@@ -54,6 +71,7 @@ const Sidebar = () => {
 
         </div>
     </div>
+    </>
   )
 }
 

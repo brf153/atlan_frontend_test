@@ -1,7 +1,3 @@
- .App {
-    display: flex;
-  }
-  
   .Sidebar{
     width: 7vw;
     height: 100vh;
@@ -10,7 +6,7 @@
   }
   
   .Navbar {
-    height: 12vh;
+    height: 10vh;
     width: 90vw;
     display: flex;
     align-items: center;
@@ -21,20 +17,8 @@
   .NavbarImg{
     position: absolute;
     width: 93vw;
-    height: 12vh;
+    height: 10vh;
     z-index: -10;
-  }
-  
-  @media screen and (max-width: 1000px) {
-    .Sidebar{
-      width: 12vw;
-    }
-    .Navbar {
-      width: 88vw;
-    }
-    .NavbarImg{
-      width: 88vw;
-    }
   }
   
   .cl-internal-11ewti4{
@@ -48,7 +32,42 @@
   }
   
   .cl-avatarImage{
-    width: 40px;
-    height: 40px;
+    width: 4.5vmin;
+    height: 4.5vmin;
   }
+
+  @media screen and (max-width: 1000px) {
+    .Sidebar{
+      width: 12vw;
+    }
+    .Navbar {
+      width: 88vw;
+    }
+    .NavbarImg{
+      width: 88vw;
+    }
+  }
+
+  @media screen and (max-width: 800px) {
+    .Navbar {
+      width: 95vw;
+      height: 8vh;
+      display: flex;
+    }
+    .NavbarImg{
+      width: 100vw;
+    }
+
+    .cl-avatarImage{
+      width: 7vmin;
+      height: 7vmin;
+    }
+
+    .Sidebar{
+      display: none;
+    }
+    
+  }
+
+  /* .cl-userButtonTrigger */
   

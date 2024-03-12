@@ -34,7 +34,7 @@ export function CustomDropdownMenu({ items, triggerIcon, setData }: { items: { i
 
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button className='dark-bg text-white w-auto h-[2.2rem] p-2 flex gap-1 justify-center align-middle rounded-md'>
+          <Button className='dark-bg text-white w-auto h-[1.5rem] md:h-[2.2rem] p-2 flex gap-1 justify-center align-middle rounded-md'>
             {triggerIcon}
           </Button>
         </DropdownMenuTrigger>
