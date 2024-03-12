@@ -1,6 +1,5 @@
 import Replicate from "replicate"
 import OpenAI from "openai"
-import Bard from "bard-ai"
 import axios from "axios"
 import { CohereClient } from "cohere-ai"
 import { LLMProps } from "@/enum/enums"
