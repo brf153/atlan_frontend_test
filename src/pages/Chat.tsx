@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react"
 // import Layout from '@/layout/Layout';
 import Sidebar from "@/components/Sidebar"
 import SearchBar from "@/components/SearchBar"
-import { ImageUrl, LLMProps, WaveBase64 } from "@/enum/enums"
-import { LLMData, LLMDataProps, Message, llmModel } from "@/db/data"
+import { LLMProps } from "@/enum/enums"
+import { LLMDataProps, Message } from "@/db/data"
 import { Separator } from "@/components/ui/separator"
 import { IoMdSend, IoIosText } from "react-icons/io"
 import { SignedIn, SignedOut, useUser } from "@clerk/clerk-react"
@@ -117,10 +117,19 @@ const ModelDescription = ({
 }
 
 const Chat: React.FC = () => {
-  let currentLLM: LLMDataProps | undefined = useAppSelector(selectCurrentLLM)
+  const currentLLM: LLMDataProps | undefined = useAppSelector(selectCurrentLLM)
   console.log("currentLLM", currentLLM)
   if (!currentLLM) {
-    currentLLM = LLMData[0]
+    return (
+      <Layout>
+        <div className="w-full h-[90vh] text-white bg-black flex justify-center items-center">
+          <div className="flex flex-col gap-2">
+            <FaRegUserCircle className="text-9xl mx-auto" />
+            <p>Please select a model to view this page.</p>
+          </div>
+        </div>
+      </Layout>
+    )
   }
 
   const { isSignedIn, user, isLoaded } = useUser()
@@ -212,26 +221,6 @@ const Chat: React.FC = () => {
                         />
                       )}
 
-                      <div
-                        className={`p-4 w-fit gray-bg rounded-b-md ${message.sender === "user" ? "rounded-tl-md" : "rounded-tr-md"}`}
-                      >
-                        {/* {currentLLM?.type === "Creative" &&
-                    message.sender === "bot" ? (
-                      currentLLM.message[0].content === "WaveBase64" ? (
-                        <img
-                          src={`data:image/png;base64,${WaveBase64}`}
-                          alt="image"
-                        />
-                      ) : (
-                        <img
-                          src={`data:image/png;base64,${message.content}`}
-                          alt="image"
-                        />
-                      )
-                    ) : (
-                      message.content
-                    )} */}
-
                         <div
                           className={`p-4 w-fit gray-bg rounded-b-md ${message.sender === "user" ? "rounded-tl-md" : "rounded-tr-md"}`}
                         >
@@ -246,7 +235,6 @@ const Chat: React.FC = () => {
                           )}
                         </div>
                       </div>
-                    </div>
                   ))}
                 </div>
 

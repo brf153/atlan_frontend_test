@@ -2,10 +2,10 @@ import Layout from "@/layout/Layout"
 import { CustomDropdownMenu } from "@/components/DropDown"
 import { CardCarousel } from "@/components/Carousel"
 import { CardLLM } from "@/components/Card"
-import { HeaderData, LLMData, LLMDataProps, LLMDataTop } from "@/db/data"
+import { LLMDataProps } from "@/db/data"
 import { FaRegImage } from "react-icons/fa6"
-import { IoIosText } from "react-icons/io"
-import { IoFilter } from "react-icons/io5"
+import {IoIosText, IoIosColorPalette} from 'react-icons/io';
+import {IoFilter, IoHomeOutline} from 'react-icons/io5';
 import { GrPowerReset } from "react-icons/gr"
 import { useDispatch } from "react-redux"
 import {
@@ -19,8 +19,33 @@ import { useEffect, useState } from "react"
 import axiosInstance from "@/api/axios"
 import Loader from "@/components/Loader"
 import { Separator } from "@/components/ui/separator"
+import {IconType} from 'react-icons';
+import {RiBook2Line, RiComputerLine} from 'react-icons/ri';
 
 const Home = () => {
+  type HeaderDataProp = {
+    icon: IconType
+    title: string
+  }
+  
+  const HeaderData: HeaderDataProp[] = [
+    {
+      icon: IoHomeOutline,
+      title: "Latest",
+    },
+    {
+      icon: RiBook2Line,
+      title: "Academic",
+    },
+    {
+      icon: IoIosColorPalette,
+      title: "Creative",
+    },
+    {
+      icon: RiComputerLine,
+      title: "Programming",
+    },
+  ]
   const items = [
     {
       icon: (
