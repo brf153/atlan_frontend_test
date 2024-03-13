@@ -2,16 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: 'stylish';
-  src: url('./public/billy-argel-font.regular.ttf') format('truetype');
-  /* Add other font properties as needed (e.g., font-weight, font-style) */
-}
-
-.font-stylish{
-  font-family: "stylish";
-}
-
 *{
   margin: 0;
   padding: 0;
