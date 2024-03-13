@@ -16,14 +16,13 @@ import {useNavigate} from 'react-router-dom';
 type Props = {}
 
 const MyAI = (props: Props) => {
-  const { isSignedIn, user, isLoaded } = useUser()
+  const { user } = useUser()
   let myArray: LLMDataProps[]
   myArray = []
   const [aiData, setAiData] = React.useState({
     bool: false,
     data: myArray,
   })
-  const [showForm, setShowForm] = React.useState(false)
 
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
@@ -33,8 +32,6 @@ const MyAI = (props: Props) => {
   useEffect(() => {
     try {
       if (user) {
-        console.log("user", user?.firstName)
-        console.log("myllm", myLLM)
         if (myLLM.length > 0) {
           setAiData({
             bool: true,

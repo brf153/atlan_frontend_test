@@ -1,17 +1,10 @@
-import React from 'react'
 import logowhite from "@/public/logo-white.png"
 import { IoHomeOutline } from "react-icons/io5";
-import { IoHomeSharp } from "react-icons/io5";
 import { IoChatboxEllipsesOutline } from "react-icons/io5";
-import { IoChatboxEllipses } from "react-icons/io5";
 import { IconType } from 'react-icons/lib';
-import { FaCircleUser } from "react-icons/fa6";
 import { FaRegCircleUser } from "react-icons/fa6";
-import { BiUserCircle } from "react-icons/bi";
 import { Data, Links } from '@/enum/enums';
 import { Link } from 'react-router-dom';
-import { MenubarComponent } from './Menubar';
-import { Button } from './ui/button';
 
 type SidebarIconsProps = {
     icon: IconType,

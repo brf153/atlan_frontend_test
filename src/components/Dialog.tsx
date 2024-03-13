@@ -11,11 +11,10 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { GoPlus } from "react-icons/go"
-import { Select } from "./ui/select"
-import { useEffect, useRef, useState } from "react"
+import { useState } from "react"
 import { LLMDataProps } from "@/db/data"
 import { useDispatch } from "react-redux"
-import {selectAvailableLLMs, setAvailableLLMs, setCurrentLLM, selectLLMsByCreator} from '@/slice/llmSlice';
+import {selectAvailableLLMs, setAvailableLLMs, selectLLMsByCreator} from '@/slice/llmSlice';
 import { useAppSelector } from "@/app/hooks"
 import { WaveBase64 } from "@/enum/enums"
 import { useUser } from "@clerk/clerk-react"

@@ -23,27 +23,34 @@ The LLM Catalogue App is a frontend web application built with React, TypeScript
 To run the LLM Catalogue App locally, follow these steps:
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/brf153/atlan_frontend_test.git
    ```
 
 2. Navigate to project directory
-```bash
-cd atlan_frontend_test
-```
+
+    ```bash
+    cd atlan_frontend_test
+    ```
 
 3. Install dependencies:
-```bash
-npm install
-```
+
+    ```bash
+    npm install
+    ```
 
 4. Make a .env file(look at .env.example for reference) and fill in the details
 
 5. Run the server:
+
 ```bash
 npm run dev
 ```
 
 
-
-
+TO reduce load time:
+1. deal with lcp
+2. convert gif to webm
+3. convert jpg, png to webp
+4. reduce unused js(open coverage tab in devtols)

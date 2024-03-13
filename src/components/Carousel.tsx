@@ -1,6 +1,3 @@
-import * as React from "react"
-
-import { Card, CardContent } from "@/components/ui/card"
 import { ImageUrl } from "@/enum/enums"
 
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader

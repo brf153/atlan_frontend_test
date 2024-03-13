@@ -123,7 +123,7 @@ const llmData =[
       "codesnippet": `https://res.cloudinary.com/dofq9gh9l/image/upload/v1710306749/Screenshot_from_2024-03-13_10-39-40_d6g89l.webp`,
       "usecase": "Great for developers, coders, and programming enthusiasts seeking to boost their productivity and creativity."
     },
-    "image": "https://res.cloudinary.com/dofq9gh9l/image/upload/v1709906299/s6kwpb1lg8ywk5gumc5m.gif",
+    "image": "https://res.cloudinary.com/dofq9gh9l/video/upload/v1710342212/monkey-developer-ezgif.com-gif-to-webm-converter_pjyxvo.webm",
     "prompt": "AI coding assistant for developers.",
     "type": "Programming",
     "likes": 40,
@@ -169,7 +169,7 @@ const llmData =[
       "codesnippet": `https://res.cloudinary.com/dofq9gh9l/image/upload/v1710306732/Screenshot_from_2024-03-13_10-38-17_zwnm80.webp`,
       "usecase": "Great for adding artistic flair to digital content, branding materials, and marketing campaigns."
     },
-    "image": "https://res.cloudinary.com/dofq9gh9l/image/upload/v1709907388/samples/hkhb35ox6y8vwnpwhtbw.gif",
+    "image": "https://res.cloudinary.com/dofq9gh9l/video/upload/v1710342702/knata8msqoj84gnmmp70.webm",
     "prompt": "AI coding assistant for developers.",
     "type": "Programming",
     "likes": 60,
@@ -192,7 +192,7 @@ const llmData =[
       "codesnippet": `https://res.cloudinary.com/dofq9gh9l/image/upload/v1710306749/Screenshot_from_2024-03-13_10-39-40_d6g89l.webp`,
       "usecase": "Ideal for programmers, developers, and software engineers seeking to streamline their coding workflow."
     },
-    "image": "https://res.cloudinary.com/dofq9gh9l/image/upload/v1709906861/lowmbrgjmwexjicury6e.gif",
+    "image": "https://res.cloudinary.com/dofq9gh9l/video/upload/v1710342563/tigeobs4zw7mowaepxr4.webm",
     "prompt": "Transform your ideas into captivating visuals effortlessly.",
     "type": "Creative",
     "likes": 50,

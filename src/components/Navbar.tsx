@@ -1,8 +1,6 @@
-import React from 'react'
-import SearchBar from '@/components/SearchBar';
 import {CiStar, CiBellOn} from 'react-icons/ci';
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/clerk-react";
-import logo2 from "@/public/logo2.jpeg"
+import logo from "@/public/logo.jpeg"
 import { FaRegUserCircle } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
 
@@ -15,7 +13,7 @@ function Navbar({}: Props) {
   }
   return (
     <div className="Navbar">
-        <img src={logo2} alt="background" className="NavbarImg object-cover"/>
+        <img src={logo} alt="background" className="NavbarImg object-cover"/>
         <div className='text-white relative left-[4vw] text-[2rem] xl:mx-auto 2xl:left-[5vw] sm:text-[3rem]'>
         𝔚𝔢𝔩𝔠𝔬𝔪𝔢
         </div>

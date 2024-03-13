@@ -1,10 +1,8 @@
-import pic from "@/public/logo-black.jpg"
 import { FaPlay } from "react-icons/fa";
 import { GiSelfLove } from "react-icons/gi";
 
 import {
   Card,
-  CardContent,
 } from "@/components/ui/card"
 import {IoIosColorPalette} from 'react-icons/io';
 import { formatNumber } from "@/utils/utils";

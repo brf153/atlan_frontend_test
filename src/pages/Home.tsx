@@ -85,7 +85,7 @@ const Home = () => {
   const navigate = useNavigate()
   const [availableLLM, setAvailableLLM] = useState<LLMDataProps[]>([])
   const [trendLLM, setTrendLLM] = useState<LLMDataProps[]>([])
-  const { isSignedIn, user, isLoaded } = useUser()
+  const { user } = useUser()
 
   const [loader, setLoader] = useState(true)
 
