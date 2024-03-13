@@ -35,15 +35,24 @@ const ModelSidebar = ({ currentLLM, modelSidebarDisplay, setModelSidebarDisplay 
   const handleClick = (selectedLLM: LLMDataProps) => {
     dispatch(setCurrentLLM(selectedLLM))
   }
+  const [llm, setLLM] = useState<LLMDataProps[]>(availableLLMs)
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value
+    const filteredLLM = availableLLMs.filter(llm =>
+      llm.name.toLowerCase().includes(value.toLowerCase()),
+    )
+    setLLM(filteredLLM)
+  }
   return (
     <div className={`${modelSidebarDisplay? "w-[70vw] fixed z-10 bg-black h-screen sm:flex flex-col overflow-y-scroll":"hidden w-[20vw] xl:w-[15vw] bg-black h-screen sm:flex flex-col overflow-y-scroll"}`}>
       <div className="absolute sm:hidden">
         <FaChevronLeft onClick={()=>setModelSidebarDisplay(prev=>!prev)} className="fixed text-gray-400 text-2xl left-[68vw] top-[45vh] cursor-pointer" />
       </div>
       <div className="flex w-full items-center justify-center h-16 border-b border-gray-600 dark-bg">
-        <SearchBar className="w-[80%] mx-auto" />
+        <SearchBar onChange={(e)=>handleChange(e)} className="w-[80%] mx-auto" />
       </div>
-      {availableLLMs.map((model, index) => (
+      {llm.map((model, index) => (
         <div
           onClick={() => handleClick(model)}
           key={index}

@@ -16,7 +16,9 @@ function Navbar({}: Props) {
   return (
     <div className="Navbar">
         <img src={logo2} alt="background" className="NavbarImg object-cover"/>
-        <SearchBar />
+        <div className='text-white relative left-[4vw] text-[2rem] xl:mx-auto 2xl:left-[5vw] sm:text-[3rem]'>
+        𝔚𝔢𝔩𝔠𝔬𝔪𝔢
+        </div>
         <div className="flex w-auto justify-between">
           <SignedOut>
           <SignInButton>
