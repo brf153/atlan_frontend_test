@@ -16,6 +16,8 @@ The LLM Catalogue App is a frontend web application built with React, TypeScript
 - **Tailwind CSS**: Utility-first CSS framework for styling the app with speed and flexibility.
 - **Shadcn**: Shadcn provides beautiful, customizable UI components you can copy-paste into your web apps
 - **Redux**: State management library for managing application state and data flow.
+- **React Icons**:
+- **Clerk**:
 - **MockAPI**: Mock API service for simulating backend data and interactions during development.
 
 ## Installation
@@ -53,4 +55,4 @@ TO reduce load time:
 1. deal with lcp
 2. convert gif to webm
 3. convert jpg, png to webp
-4. reduce unused js(open coverage tab in devtols)
+4. reduce unused js(refactor code)
