@@ -19,6 +19,8 @@ import {selectAvailableLLMs, setAvailableLLMs, setCurrentLLM, selectLLMsByCreato
 import { useAppSelector } from "@/app/hooks"
 import { WaveBase64 } from "@/enum/enums"
 import { useUser } from "@clerk/clerk-react"
+import axiosInstance from "@/api/axios"
+import { Loader } from "lucide-react"
 
 export function DialogComponent({setAiData}: {setAiData: React.Dispatch<React.SetStateAction<{
   bool: boolean;
@@ -27,6 +29,7 @@ export function DialogComponent({setAiData}: {setAiData: React.Dispatch<React.Se
   const [selectedValue, setSelectedValue] = useState("") 
   const [file, setFile] = useState(null) 
   const [display, setDisplay] = useState(false)
+  const [loader, setLoader] = useState(false)
 
 
   const dispatch = useDispatch()
@@ -45,7 +48,9 @@ export function DialogComponent({setAiData}: {setAiData: React.Dispatch<React.Se
 
   const [formData, setFormData] = useState({
     name: "",
-    description: "",
+    description:"",
+    codesnippet: "",
+    usecase: "",
     prompt: "",
     type: "Creative" as LLMDataProps["type"],
     image: "", // Use null to represent no file selected initially
@@ -60,61 +65,65 @@ export function DialogComponent({setAiData}: {setAiData: React.Dispatch<React.Se
     }))
   }
 
-  const handleSubmit = (e: any) => {
-    e.preventDefault()
-    console.log("submitted", file)
-    const data = new FormData()
-    console.log(file)
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    setLoader(true)
+    console.log("submitted", file);
+    let selectedLLM: LLMDataProps;
+    const data = new FormData();
+    console.log(file);
     if (file) {
-      data.append("file", file)
+      data.append("file", file);
     }
-    data.append("upload_preset", "qdmol9rf")
-    data.append("cloud_name", "dofq9gh9l")
-    fetch("https://api.cloudinary.com/v1_1/dofq9gh9l/image/upload", {
-      method: "post",
-      body: data,
-    })
-      .then(res => res.json())
-      .then(data => {
-        console.log(data)
-        setFormData(prevState => ({
-          ...prevState,
-          image: data.url,
-        }))
-
-        const selectedLLM: LLMDataProps = {
-          id: availableLLMs.length + 1,
-          name: formData.name,
+    data.append("upload_preset", "qdmol9rf");
+    data.append("cloud_name", "dofq9gh9l");
+  
+    try {
+      const response = await fetch("https://api.cloudinary.com/v1_1/dofq9gh9l/image/upload", {
+        method: "post",
+        body: data,
+      });
+      const imageData = await response.json();
+      console.log(imageData);
+  
+      setFormData(prevState => ({
+        ...prevState,
+        image: imageData.url,
+      }));
+  
+      selectedLLM = {
+        id: availableLLMs.length + 1,
+        name: formData.name,
+        description: {
           description: formData.description,
-          prompt: formData.prompt,
-          type: formData.type,
-          image: data.url,
-          creator: user?.firstName ?? "",
-          creatorPic: user?.imageUrl ?? "",
-          message:
-            formData.type === "Creative"
-              ? [{ id: 1, content: WaveBase64, sender: "bot" }]
-              : [
-                  {
-                    id: 1,
-                    content: "Hello, how can I help you?",
-                    sender: "bot",
-                  },
-                ],
-          views: 0,
-          likes: 0,
-        }
+          codesnippet: formData.codesnippet,
+          usecase: formData.usecase,
+        },
+        prompt: formData.prompt,
+        type: formData.type,
+        image: imageData.url,
+        creator: user?.firstName ?? "",
+        creatorPic: user?.imageUrl ?? "",
+        message: formData.type === "Creative" ?
+          [{ id: 1, content: WaveBase64, sender: "bot" }] :
+          [{ id: 1, content: "Hello, how can I help you?", sender: "bot" }],
+        views: 0,
+        likes: 0,
+        favourite: [],
+      };
+  
+      const llmsArray = availableLLMs.concat(selectedLLM);
+      dispatch(setAvailableLLMs(llmsArray));
+      await axiosInstance.post("/llm", selectedLLM);
+      setLoader(false);
+      setDisplay(false);
 
-        const llmsArray = availableLLMs.concat(selectedLLM)
-        dispatch(setAvailableLLMs(llmsArray))
-        setDisplay(false)
-      })
-      .catch(err => {
-        console.log(err)
-      })
-
-    console.log("formdata", formData)
-  }
+    } catch (error) {
+      console.log(error);
+    }
+  
+    console.log("formdata", formData);
+  };  
 
   return (
     <Dialog open={display}>
@@ -153,6 +162,32 @@ export function DialogComponent({setAiData}: {setAiData: React.Dispatch<React.Se
               <Input
                 name="description"
                 id="description"
+                onChange={handleChange}
+                placeholder="Enter Description"
+                className="col-span-3 dark-bg border border-gray-400 placeholder:text-gray-400"
+              />
+            </div>
+
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="codesnippet" className="text-right">
+                CodeSnippet
+              </Label>
+              <Input
+                name="codesnippet"
+                id="codesnippet"
+                onChange={handleChange}
+                placeholder="Enter Description"
+                className="col-span-3 dark-bg border border-gray-400 placeholder:text-gray-400"
+              />
+            </div>
+
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="usecase" className="text-right">
+                Usecase
+              </Label>
+              <Input
+                name="usecase"
+                id="usecase"
                 onChange={handleChange}
                 placeholder="Enter Description"
                 className="col-span-3 dark-bg border border-gray-400 placeholder:text-gray-400"
@@ -208,7 +243,7 @@ export function DialogComponent({setAiData}: {setAiData: React.Dispatch<React.Se
               className="bg-white text-black hover:bg-white hover:text-black"
               onClick={e => handleSubmit(e)}
             >
-              Create
+              {loader ? <Loader /> : "Create"}
             </Button>
           </DialogFooter>
         </form>

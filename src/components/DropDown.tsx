@@ -11,16 +11,17 @@ import {
 export function CustomDropdownMenu({ items, triggerIcon, setData }: { items: { icon: JSX.Element; label: string }[]; triggerIcon: JSX.Element, setData: React.Dispatch<React.SetStateAction<{
   bool: boolean;
   type: string;
+  trend: boolean;
 }>>}) {
   const handleClick = (e: any) => {
     console.log("Data", e.target.innerText);
     if (e.target.innerText === "Image Generation") {
-      setData({ bool: true, type: "Creative" });
+      setData({ bool: true, type: "Creative", trend: false });
     } else if(e.target.innerText === "Text Generation"){
-      setData({ bool: true, type: e.target.innerText });
+      setData({ bool: true, type: e.target.innerText, trend: false });
     }
     else{
-      setData({ bool: false, type: "" });
+      setData({ bool: false, type: "", trend: false});
     }
   };
   return (

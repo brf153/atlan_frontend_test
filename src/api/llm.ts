@@ -26,8 +26,6 @@ type Response = {
   type: LLMProps
 }
 
-// https://stablediffusionapi.com/api/v3/text2img
-
 export async function getResponse(props: Response): Promise<string | Error> {
   try {
     switch (props.type) {
@@ -97,11 +95,9 @@ export async function getResponse(props: Response): Promise<string | Error> {
         )
         return responseEleuthar.data.choices[0].text
       case "Llama":
-        // Build the Request
         const apiRequestJson = {
           messages: [
             {
-              // System prompt (optional, if applicable)
               role: "system",
               content: props.system_prompt, // Replace with your system prompt text
             },
@@ -112,31 +108,29 @@ export async function getResponse(props: Response): Promise<string | Error> {
           ],
           functions: [
             {
-              // Replace with the actual function name for your LLM's text generation
-              name: "generate_text", // Example function name
+              name: "generate_text",
               description: "Generate text based on prompts",
               parameters: {
                 type: "object",
                 properties: {
                   max_tokens: {
-                    // Adjust based on API limitations
                     type: "number",
                     description: "Maximum number of tokens to generate",
-                    default: 1024, // Example default
+                    default: 1024,
                   },
                   temperature: {
-                    // Adjust based on API (optional)
+              
                     type: props.temperature,
                     description:
                       "Controls the randomness of the generation (0.0-1.0)",
                   },
                 },
               },
-              required: [], // No required parameters for prompts
+              required: [],
             },
           ],
           stream: false,
-          function_call: "generate_text", // Replace with the actual function name
+          function_call: "generate_text",
         }
         const responseLlama = await llamaAPI.run(apiRequestJson)
         return responseLlama.choices[0].message.content
@@ -162,7 +156,6 @@ export async function getResponse(props: Response): Promise<string | Error> {
             },
           },
         )
-        console.log("image check", responseImage)
         return responseImage.data.artifacts[0].base64
       default:
         throw new Error("Invalid response type")

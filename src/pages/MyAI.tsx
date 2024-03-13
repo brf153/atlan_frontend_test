@@ -7,10 +7,11 @@ import { formatDate, formatNumber } from "@/utils/utils"
 import backgroundLogo from "@/public/background_myai.jpg"
 import { DialogComponent } from "@/components/Dialog"
 import { useAppDispatch, useAppSelector } from "@/app/hooks"
-import { selectLLMsByCreator, selectAvailableLLMs } from "@/slice/llmSlice"
+import {selectLLMsByCreator, selectAvailableLLMs, setCurrentLLM} from '@/slice/llmSlice';
 import { LLMDataProps } from "@/db/data"
 import { CardLLM } from "@/components/Card"
 import { FaRegUserCircle } from "react-icons/fa";
+import {useNavigate} from 'react-router-dom';
 
 type Props = {}
 
@@ -25,6 +26,7 @@ const MyAI = (props: Props) => {
   const [showForm, setShowForm] = React.useState(false)
 
   const dispatch = useAppDispatch()
+  const navigate = useNavigate()
   const myLLM = useAppSelector(selectLLMsByCreator(user?.firstName ?? ""))
   const availableLLMs = useAppSelector(selectAvailableLLMs)
 
@@ -44,6 +46,12 @@ const MyAI = (props: Props) => {
       console.error(error)
     }
   }, [availableLLMs])
+
+  const handleClick = (selectedLLM: LLMDataProps) => {
+    Promise.resolve()
+      .then(() => dispatch(setCurrentLLM(selectedLLM)))
+      .then(() => navigate("/chat"))
+  }
 
   return (
     <>   
@@ -114,7 +122,9 @@ const MyAI = (props: Props) => {
           <div className="mt-8 flex gap-4">
             {aiData.bool ? (
               aiData.data.slice(0, 3).map((card: LLMDataProps, index: number) => (
-                <CardLLM card={card} />
+                <div className="cursor-pointer" onClick={() => handleClick(card)}>
+                <CardLLM card={card}/>
+                </div>
               ))
             ) : (
               <Card className="bg-black text-white w-[40vmin] h-[30vmin] sm:w-[30%] sm:h-[30vh] border-dashed flex flex-col justify-center">

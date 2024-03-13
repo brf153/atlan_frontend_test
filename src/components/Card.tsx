@@ -11,6 +11,7 @@ import { formatNumber } from "@/utils/utils";
 import {LLMDataProps} from '@/db/data';
 import {RiComputerLine} from 'react-icons/ri';
 import { RiBook2Line } from "react-icons/ri";
+import { FaRegStar } from "react-icons/fa";
 
 export function CardLLM({card}:{card: LLMDataProps}) {
   return (
@@ -45,6 +46,7 @@ export function CardLLM({card}:{card: LLMDataProps}) {
         <p className="flex justify-between w-fit">
           <p className="flex w-1/2 px-[2px] gap-1 sm:gap-[2px]"><FaPlay className="text-[10px] sm:text-[0.6rem]"/><span className="relative bottom-1 text-sm sm:text-md">{formatNumber(card.views)}</span></p>
           <p className="flex w-1/2 px-1 gap-1 sm:gap-[2px]"><GiSelfLove className="text-xs sm:text-[1rem] sm:relative sm:bottom-[3px] mt-[1px]"/><span className="relative bottom-[3px] sm:bottom-1 text-sm sm:text-md">{formatNumber(card.likes)}</span></p>
+          <p className="flex w-1/2 px-1 gap-1 sm:gap-[2px]"><FaRegStar className="text-xs sm:text-[1rem] sm:relative sm:bottom-[3px] mt-[1px]"/><span className="relative bottom-[3px] sm:bottom-1 text-sm sm:text-md">{formatNumber(card.favourite.length)}</span></p>
         </p>
       </div>
     </Card>

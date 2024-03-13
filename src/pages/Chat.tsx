@@ -3,37 +3,43 @@ import React, { useEffect, useState } from "react"
 import Sidebar from "@/components/Sidebar"
 import SearchBar from "@/components/SearchBar"
 import { LLMProps } from "@/enum/enums"
-import { LLMDataProps, Message } from "@/db/data"
+import { LLMDataProps, Message, loadBase64 } from "@/db/data"
 import { Separator } from "@/components/ui/separator"
-import { IoMdSend, IoIosText } from "react-icons/io"
+import { IoMdSend } from "react-icons/io"
 import { SignedIn, SignedOut, useUser } from "@clerk/clerk-react"
-import { CommandComponent } from "@/components/Command"
-import { CustomDropdownMenu } from "@/components/DropDown"
-import { FaRegImage } from "react-icons/fa6"
-import { GrPowerReset } from "react-icons/gr"
-import { IoFilter } from "react-icons/io5"
 import { SelectComponent } from "@/components/Popover"
 import { IoMdSettings } from "react-icons/io"
 import { SliderComponent } from "@/components/Slider"
 import { getResponse } from "@/api/llm"
-import { useSelector, useDispatch } from "react-redux"
+import { useDispatch } from "react-redux"
 import {
   selectCurrentLLM,
   setCurrentLLM,
   selectAvailableLLMs,
+  setFavouriteLLMs,
+  selectFavouriteLLMs,
+  setAvailableLLMs,
 } from "@/slice/llmSlice"
 import { useAppSelector } from "@/app/hooks"
 import Layout from "@/layout/Layout"
-import { FaRegUserCircle } from "react-icons/fa"
+import { FaRegUserCircle, FaStar } from "react-icons/fa"
+import { FaRegStar } from "react-icons/fa"
+import axiosInstance from "@/api/axios"
+import { BsThreeDots } from "react-icons/bs";
+import { FaChevronRight } from "react-icons/fa";
+import { FaChevronLeft } from "react-icons/fa";
 
-const ModelSidebar = ({ currentLLM }: { currentLLM: LLMDataProps }) => {
-  const dispatch = useDispatch()
+const ModelSidebar = ({ currentLLM, modelSidebarDisplay, setModelSidebarDisplay }: { currentLLM: LLMDataProps, modelSidebarDisplay: boolean, setModelSidebarDisplay:React.Dispatch<React.SetStateAction<boolean>> }) => {
   const availableLLMs = useAppSelector(selectAvailableLLMs)
+  const dispatch = useDispatch()
   const handleClick = (selectedLLM: LLMDataProps) => {
     dispatch(setCurrentLLM(selectedLLM))
   }
   return (
-    <div className="hidden w-[20vw] xl:w-[15vw] bg-black h-screen sm:flex flex-col">
+    <div className={`${modelSidebarDisplay? "w-[70vw] fixed z-10 bg-black h-screen sm:flex flex-col overflow-y-scroll":"hidden w-[20vw] xl:w-[15vw] bg-black h-screen sm:flex flex-col overflow-y-scroll"}`}>
+      <div className="absolute sm:hidden">
+        <FaChevronLeft onClick={()=>setModelSidebarDisplay(prev=>!prev)} className="fixed text-gray-400 text-2xl left-[68vw] top-[45vh] cursor-pointer" />
+      </div>
       <div className="flex w-full items-center justify-center h-16 border-b border-gray-600 dark-bg">
         <SearchBar className="w-[80%] mx-auto" />
       </div>
@@ -48,13 +54,13 @@ const ModelSidebar = ({ currentLLM }: { currentLLM: LLMDataProps }) => {
             alt="kitten"
             className="w-14 h-14 rounded-md mx-auto"
           />
-          <p className="text-white mt-1 w-[75%] truncate text-ellipsis">
+          <div className="text-white mt-1 w-[75%] truncate text-ellipsis">
             <span className="font-bold text-lg">{model.name}</span>
             <br />
             <span className="text-sm font-light text-gray-300">
-              {model.description}
+              {model.description.description}
             </span>
-          </p>
+          </div>
         </div>
       ))}
     </div>
@@ -67,32 +73,93 @@ const ModelDescription = ({
   model,
   setModel,
   llm,
+  favourite,
+  setFavourite,
+  handleFavourite,
+  setModelDescriptionDisplay,
+  modelDescriptionDisplay,
 }: {
   temperature: number
   setTemperature: React.Dispatch<React.SetStateAction<number>>
   model: string
   setModel: React.Dispatch<React.SetStateAction<LLMProps>>
   llm: LLMDataProps
+  favourite: boolean
+  setFavourite: React.Dispatch<React.SetStateAction<boolean>>
+  handleFavourite: () => void
+  setModelDescriptionDisplay: React.Dispatch<React.SetStateAction<boolean>>
+  modelDescriptionDisplay: boolean
 }) => {
+  function handleGithub() {
+    const url =
+      "https://github.com/brf153/atlan_frontend_test/blob/master/src/api/llm.ts#L31"
+    const newTab = window.open(url, "_blank")
+    if (newTab) {
+      newTab.focus()
+    } else {
+      alert(
+        "Your browser blocked opening a new tab. Please check your browser settings.",
+      )
+    }
+  }
+
   return (
-    <div className="hidden w-[15vw] dark-gray-bg h-screen xl:flex xl:flex-col gap-2">
-      <div className="p-4 flex w-full gap-2">
-        <img
-          src={llm.image}
-          alt="kitten"
-          className="w-14 h-14 rounded-md mx-auto"
-        />
-        <div className="text-white mt-1 w-[75%] truncate text-ellipsis">
-          <span className="font-bold text-lg">{llm.name}</span>
-          <br />
-          <div className="flex text-sm font-light text-gray-300 w-[90%] truncate text-ellipsis">
-            <img src={llm.creatorPic} alt="person" className="w-4 h-4 inline" />
-            <span className="ml-2">{llm.creator}</span>
+    <div className={`${modelDescriptionDisplay ? "w-[70vw] dark-gray-bg h-screen fixed right-0 z-10 gap-2":"hidden w-[17vw] dark-gray-bg h-screen xl:flex xl:flex-col gap-2"}`}>
+      <div className="relative sm:hidden">
+      <FaChevronRight onClick={()=>setModelDescriptionDisplay(prev=> !prev)} className="absolute cursor-pointer text-gray-400 text-2xl right-[71vw] top-[50vh]"/>
+      </div>
+      <div className="flex">
+        <div className="p-4 flex w-full gap-2">
+          <img
+            src={llm.image}
+            alt="kitten"
+            className="w-14 h-14 rounded-md mx-auto"
+          />
+          <div className="text-white mt-1 w-[75%] truncate text-ellipsis">
+            <span className="font-bold text-lg">{llm.name}</span>
+            <br />
+            <div className="flex text-sm font-light text-gray-300 w-[90%] truncate text-ellipsis">
+              <img
+                src={llm.creatorPic}
+                alt="person"
+                className="w-4 h-4 inline"
+              />
+              <span className="ml-2">{llm.creator}</span>
+            </div>
           </div>
+        </div>
+        <div className="flex flex-col justify-center mr-4">
+          {favourite ? (
+            <FaStar
+              onClick={handleFavourite}
+              className="text-xl text-yellow-400 cursor-pointer"
+            />
+          ) : (
+            <FaRegStar
+              onClick={handleFavourite}
+              className="text-xl text-white cursor-pointer"
+            />
+          )}
         </div>
       </div>
       <div className="text-white px-4">
-        <p>{llm.description}</p>
+        <p>Description: {llm.description.description}</p>
+        <span className="text-sm font-light flex flex-col">
+          <span className="my-2 flex gap-2">
+            <span className="mt-1">Code Snippet:</span>
+            <button
+              className="border border-white p-1 rounded-md hover:bg-black hover:text-white"
+              onClick={handleGithub}
+            >
+              {" "}
+              Github
+            </button>
+          </span>
+          <span className="bg-black text-white">
+            {llm.description.codesnippet}
+          </span>
+        </span>
+        <span className="text-sm">Usecases :{llm.description.usecase}</span>
       </div>
       <Separator />
       <div className="w-full px-4 flex justify-between mt-2">
@@ -134,10 +201,65 @@ const Chat: React.FC = () => {
 
   const { isSignedIn, user, isLoaded } = useUser()
 
+  const [favourite, setFavourite] = useState(false)
+  const dispatch = useDispatch()
+  const favouriteLLMs = useAppSelector(selectFavouriteLLMs)
+  const availableLLMs = useAppSelector(selectAvailableLLMs)
+
+  const handleFavourite = async () => {
+    let updatedFavourite = !favourite
+
+    if (!favourite && user) {
+      const favouritesArray = [...currentLLM.favourite, user.firstName]
+      const llmData: LLMDataProps = {
+        ...currentLLM,
+        favourite: favouritesArray,
+      }
+
+      let availableLLMsCopy = [...availableLLMs]
+      let index = availableLLMsCopy.findIndex(llm => llm.id === llmData.id)
+      availableLLMsCopy[index] = llmData
+
+      console.log("Available", availableLLMsCopy)
+      dispatch(setAvailableLLMs(availableLLMsCopy))
+
+      dispatch(setFavouriteLLMs([...favouriteLLMs, llmData]))
+
+      console.log("Favourite")
+    } else if (favourite && user) {
+      const favouritesArray = currentLLM.favourite.filter(
+        name => name !== user.firstName,
+      )
+      const llmData: LLMDataProps = {
+        ...currentLLM,
+        favourite: favouritesArray,
+      }
+      let availableLLMsCopy = [...availableLLMs]
+      let index = availableLLMsCopy.findIndex(llm => llm.id === llmData.id)
+      availableLLMsCopy[index] = llmData
+
+      console.log("Available", availableLLMsCopy)
+      dispatch(setAvailableLLMs(availableLLMsCopy))
+      dispatch(
+        setFavouriteLLMs(favouriteLLMs.filter(llm => llm.id !== llmData.id)),
+      )
+      console.log("Unfavourite")
+    }
+
+    setFavourite(updatedFavourite)
+  }
+
   const [inputMessage, setInputMessage] = useState<string>("")
   const [messages, setMessages] = useState<Message[]>(currentLLM?.message)
+  const [renderMessage, setRenderMessage] = useState<boolean>(false)
+
   useEffect(() => {
     setMessages(currentLLM?.message ?? [])
+    setFavourite(currentLLM.favourite.includes(user?.firstName as never))
+    console.log(
+      "Favourite",
+      currentLLM.favourite.includes(user?.firstName as never),
+    )
   }, [currentLLM])
 
   const handleSendMessage = async () => {
@@ -150,6 +272,14 @@ const Chat: React.FC = () => {
     }
 
     setMessages(prevMessages => [...prevMessages, newMessage])
+    const newBotMessage: Message = {
+      id: messages.length + 1,
+      content: currentLLM.type==="Creative"? loadBase64: "Loading...",
+      sender: "bot",
+    }
+
+    setMessages(prevMessages => [...prevMessages, newBotMessage])
+
     setInputMessage("")
 
     const full_prompt = `Give response to ${inputMessage.trim()}`
@@ -168,22 +298,37 @@ const Chat: React.FC = () => {
       sender: "bot",
     }
 
-    setMessages(prevMessages => [...prevMessages, response])
+    setMessages(prevMessages => {
+      const updatedMessages = [...prevMessages]
+      updatedMessages.pop()
+      return [...updatedMessages, response]
+    })
+
+    setRenderMessage(false)
   }
 
   const [temperature, setTemperature] = useState<number>(40)
 
   const [model, setModel] = useState<LLMProps>("ChatGPT")
 
+  const [modelDescriptionDisplay, setModelDescriptionDisplay] = useState<boolean>(false)
+
+  const [modelSidebarDisplay, setModelSidebarDisplay] = useState<boolean>(false)
+
+
+
   return (
     <>
       <SignedIn>
+        <div className="sm:hidden">
+          <Sidebar />
+        </div>
         <div className="flex">
           <div className="hidden sm:flex w-[7vw]">
             <Sidebar />
           </div>
           <div className="w-screen sm:w-[93vw] flex bg-black overflow-y-hidden">
-            <ModelSidebar currentLLM={currentLLM} />
+            <ModelSidebar modelSidebarDisplay={modelSidebarDisplay} setModelSidebarDisplay={setModelSidebarDisplay} currentLLM={currentLLM} />
 
             <div className="container mx-auto max-w-2xl p-4">
               <div className="flex text-white w-fit mx-auto gap-2">
@@ -195,6 +340,12 @@ const Chat: React.FC = () => {
                 <h1 className="text-lg mt-3 sm:text-2xl font-bold text-center sm:mt-2">
                   {currentLLM.name}
                 </h1>
+                <div className={`${modelDescriptionDisplay ? "hidden":"sm:hidden absolute right-4 top-[4%] text-xl cursor-pointer"}`} onClick={()=>setModelDescriptionDisplay(prev=>!prev)}>
+                <BsThreeDots />
+                </div>
+                <div className={`${modelSidebarDisplay ? "hidden":"sm:hidden absolute left-2 top-[50vh]"}`} onClick={()=>setModelSidebarDisplay(prev=>!prev)}>
+                <FaChevronRight className="cursor-pointer text-2xl text-gray-400"/>
+                </div>
               </div>
 
               <Separator className="mt-4" />
@@ -221,24 +372,24 @@ const Chat: React.FC = () => {
                         />
                       )}
 
-                        <div
-                          className={`p-4 w-fit gray-bg rounded-b-md ${message.sender === "user" ? "rounded-tl-md" : "rounded-tr-md"}`}
-                        >
-                          {currentLLM?.type === "Creative" &&
-                          message.sender === "bot" ? (
-                            <img
-                              src={`data:image/png;base64,${message.content}`}
-                              alt="image"
-                            />
-                          ) : (
-                            message.content
-                          )}
-                        </div>
+                      <div
+                        className={`p-4 w-fit gray-bg rounded-b-md ${message.sender === "user" ? "rounded-tl-md" : "rounded-tr-md"}`}
+                      >
+                        {currentLLM?.type === "Creative" &&
+                        message.sender === "bot" ? (
+                          <img
+                            src={`data:image/png;base64,${message.content}`}
+                            alt="image"
+                          />
+                        ) : (
+                          message.content
+                        )}
                       </div>
+                    </div>
                   ))}
                 </div>
 
-                <div className="flex mt-4 fixed bottom-4 left-[8%] sm:left-[37%] xl:left-auto sm:bottom-2 sm:w-[59vw] lg:w-[40vw]">
+                <div className="flex mt-4 fixed bottom-[8%] left-[8%] sm:left-[37%] xl:left-auto sm:bottom-2 w-[80vw] sm:w-[59vw] lg:w-[40vw]">
                   <input
                     type="text"
                     value={inputMessage}
@@ -267,6 +418,11 @@ const Chat: React.FC = () => {
               model={model}
               setModel={setModel}
               llm={currentLLM}
+              favourite={favourite}
+              setFavourite={setFavourite}
+              handleFavourite={handleFavourite}
+              setModelDescriptionDisplay={setModelDescriptionDisplay}
+              modelDescriptionDisplay={modelDescriptionDisplay}
             />
           </div>
         </div>

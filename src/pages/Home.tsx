@@ -10,9 +10,8 @@ import { GrPowerReset } from "react-icons/gr"
 import { useDispatch } from "react-redux"
 import {
   setCurrentLLM,
-  selectCurrentLLM,
-  selectAvailableLLMs,
   setAvailableLLMs,
+  setFavouriteLLMs,
 } from "@/slice/llmSlice"
 import { useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
@@ -21,6 +20,8 @@ import Loader from "@/components/Loader"
 import { Separator } from "@/components/ui/separator"
 import {IconType} from 'react-icons';
 import {RiBook2Line, RiComputerLine} from 'react-icons/ri';
+import { TbSparkles } from "react-icons/tb";
+import {useUser} from '@clerk/clerk-react';
 
 const Home = () => {
   type HeaderDataProp = {
@@ -44,6 +45,10 @@ const Home = () => {
     {
       icon: RiComputerLine,
       title: "Programming",
+    },
+    {
+      icon: TbSparkles,
+      title: "Featured",
     },
   ]
   const items = [
@@ -79,6 +84,8 @@ const Home = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const [availableLLM, setAvailableLLM] = useState<LLMDataProps[]>([])
+  const [trendLLM, setTrendLLM] = useState<LLMDataProps[]>([])
+  const { isSignedIn, user, isLoaded } = useUser()
 
   const [loader, setLoader] = useState(true)
 
@@ -88,6 +95,8 @@ const Home = () => {
       .then(res => {
         dispatch(setAvailableLLMs(res.data))
         setAvailableLLM(res.data)
+        trendingSort(res.data)
+        favouriteSort(res.data)
         setLoader(false)
       })
       .catch(err => console.log(err))
@@ -102,16 +111,49 @@ const Home = () => {
   const [data, setData] = useState({
     bool: false,
     type: "",
+    trend: false
   })
 
   const handleData = (e: any) => {
     console.log("Data", e.target.innerText)
     if (e.target.innerText === "Latest") {
-      setData({ bool: false, type: "" })
-    } else {
-      setData({ bool: true, type: e.target.innerText })
+      setData({ bool: false, type: "", trend: false })
+    } 
+    else if(e.target.innerText === "Featured") {
+      setData({ bool: true, type: "", trend: true })
+    }
+    else {
+      setData({ bool: true, type: e.target.innerText, trend: false })
     }
   }
+
+  const favouriteSort = (llm: LLMDataProps[]) => {
+    const favouriteLLM: LLMDataProps[] = [];
+    if (user?.firstName) {
+      const filteredLLM = llm.filter((item) => item.favourite.includes(user.firstName as never));
+      favouriteLLM.push(...filteredLLM);
+    }
+  
+    console.log("favouriteLLM", favouriteLLM);
+    dispatch(setFavouriteLLMs(favouriteLLM))
+  };
+  
+
+  const trendingSort = (llm: LLMDataProps[]) => {
+    const trendingCriteria = {
+      likesWeight: 0.6,
+      viewsWeight: 0.3,
+      favouriteWeight: 0.8
+    };
+    const llmWithTrendingScore = llm.map((item) => ({
+      ...item,
+      trendingScore: (item.likes * trendingCriteria.likesWeight) + (item.views * trendingCriteria.viewsWeight) + (item.favourite.length * trendingCriteria.favouriteWeight),
+    }));
+    llmWithTrendingScore.sort((a, b) => b.trendingScore - a.trendingScore);
+    const trendingItems = llmWithTrendingScore.slice(0, 3);
+  
+    setTrendLLM(trendingItems);
+  };
 
   return (
     <>
@@ -133,7 +175,7 @@ const Home = () => {
               </linearGradient>
             </svg>
 
-            <div className="flex">
+            <div className="flex overflow-x-scroll">
               <div className="flex px-2 md:px-4 py-4">
                 <CustomDropdownMenu
                   items={items}
@@ -232,12 +274,12 @@ const Home = () => {
             </div>
 
             <div
-              className={`${data.bool ? "flex gap-4 p-4 bg-black h-[81vh]" : "hidden"}`}
+              className={`${data.bool && !data.trend ? "flex flex-col items-center sm:items-start sm:flex-row gap-4 p-4 bg-black h-[81vh]" : "hidden"}`}
             >
               {availableLLM.map((card, index) => (
                 <div
                   key={index}
-                  className={`relative cursor-pointer`}
+                  className={`relative flex cursor-pointer`}
                   onClick={() => handleClick(card)}
                 >
                   {data.type === "Text Generation"
@@ -250,6 +292,22 @@ const Home = () => {
                 </div>
               ))}
             </div>
+
+            <div
+              className={`${data.bool && data.trend ? "flex flex-col items-center sm:items-start sm:flex-row gap-4 p-4 bg-black h-[81vh]" : "hidden"}`}
+            >
+              {
+              trendLLM.map((card, index) => (
+                <div
+                  key={index}
+                  className={`relative cursor-pointer`}
+                  onClick={() => handleClick(card)}
+                >
+                        <CardLLM key={index} card={card} />
+                </div>
+              ))}
+            </div>
+
           </div>
         </Layout>
       )}

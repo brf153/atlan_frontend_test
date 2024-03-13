@@ -8,15 +8,15 @@ import { Carousel } from 'react-responsive-carousel';
 
 const CarouselItemData = [
   {
-    legend: "Indulge in culinary exploration with our gourmet companion – your pathway to gastronomic delight!",
+    legend: "Transform your ideas into captivating visuals with our LLM model.",
     image: ImageUrl.Food
   },
   {
-    legend: "Venture into legal realms with our bespoke navigator – your passport to adventure!",
+    legend: "Elevate your projects with stunning imagery generated effortlessly.",
     image: ImageUrl.Mountain
   },
   {
-    legend: "Embark on a sports law journey with our illustrious guide – your key to sporting thrills!",
+    legend: "Instantly create stunning images that bring your ideas to life.",
     image: ImageUrl.Sport
   },
 ]
