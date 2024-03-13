@@ -16,7 +16,7 @@ const replicate = new Replicate({
 })
 
 const llamaAPI = new LlamaAI(
-  import.meta.env.VITE_LLAMA,
+  import.meta.env.VITE_LLAMA_API_KEY,
 )
 
 type Response = {
@@ -56,7 +56,6 @@ export async function getResponse(props: Response): Promise<string | Error> {
             },
           },
         )
-        console.log("resultReplit", resultReplit)
         return (
           JSON.stringify(resultReplit) ||
           new Error("Error in getResponse from Replit")
@@ -152,7 +151,7 @@ export async function getResponse(props: Response): Promise<string | Error> {
           {
             headers: {
               Accept: "application/json",
-              Authorization: `Bearer ${import.meta.env.VITE_IMAGE}`,
+              Authorization: `Bearer ${import.meta.env.VITE_STABILITY_API_KEY}`,
             },
           },
         )
