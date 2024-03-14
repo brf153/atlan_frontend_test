@@ -59,7 +59,6 @@ const MyAI = (props: Props) => {
           <div className="w-full sm:w-2/3 h-2/3 sm:h-full">
             <Card className="dark-bg text-white relative w-full h-full">
               <div className="absolute top-[17%] sm:top-[25%] left-10">
-                {/* pic ke liyehai */}
                 <img
                   src={user?.imageUrl}
                   alt="profile"
@@ -72,7 +71,6 @@ const MyAI = (props: Props) => {
                   alt="background"
                   className="sm:w-4/5 sm:h-full opacity-40"
                 />
-                {/* top ke liyehai */}
                 <div className="flex w-fit h-fit gap-3 p-4 rounded-lg text-sm sm:text-md my-auto mx-8">
                   <p className="flex flex-col">
                     <span>Followers</span>
@@ -90,7 +88,6 @@ const MyAI = (props: Props) => {
               </div>
               <Separator />
               <div className="w-full h-2/3 sm:h-3/5 px-8 py-10">
-                {/* bottom ke liyehai */}
                 <div className="w-fit h-fit sm:mt-4 flex flex-col gap-2">
                   <p className="text-md sm:text-3xl font-bold">{user?.fullName}</p>
                   <p className="text-sm sm:text-md">Joined {formatDate(String(user?.createdAt))}</p>

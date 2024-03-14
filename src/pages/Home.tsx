@@ -225,7 +225,6 @@ const Home = () => {
             <div
               className={`${data.bool ? "hidden" : "hidden sm:grid sm:grid-cols-2 md:grid-cols-3 sm:mt-6 lg:grid-cols-4 xl:grid-cols-5 gap-4 px-6"} `}
             >
-              {/* Repeat LLMData three times */}
               {Array(3)
                 .fill(null)
                 .map((_, outerIndex) => (
@@ -248,7 +247,6 @@ const Home = () => {
                 LLM Model Catalog
               </p>
               <Separator className="mt-2 w-[90%] mx-auto bg-gray-500" />
-              {/* Repeat LLMData three times */}
               <div
                 className={`${data.bool ? "hidden" : "grid grid-cols-2 gap-y-4"} `}
               >
