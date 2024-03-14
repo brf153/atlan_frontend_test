@@ -14,7 +14,6 @@ export function CustomDropdownMenu({ items, triggerIcon, setData }: { items: { i
   trend: boolean;
 }>>}) {
   const handleClick = (e: any) => {
-    console.log("Data", e.target.innerText);
     if (e.target.innerText === "Image Generation") {
       setData({ bool: true, type: "Creative", trend: false });
     } else if(e.target.innerText === "Text Generation"){

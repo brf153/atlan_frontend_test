@@ -25,7 +25,6 @@ export function DialogComponent({setAiData}: {setAiData: React.Dispatch<React.Se
   bool: boolean;
   data: LLMDataProps[];
 }>>}) {
-  const [selectedValue, setSelectedValue] = useState("") 
   const [file, setFile] = useState(null) 
   const [display, setDisplay] = useState(false)
   const [loader, setLoader] = useState(false)
@@ -36,12 +35,9 @@ export function DialogComponent({setAiData}: {setAiData: React.Dispatch<React.Se
   const availableLLMs = useAppSelector(selectAvailableLLMs)
 
   
-  const { isSignedIn, user, isLoaded } = useUser()
-  
-  const myLLM = useAppSelector(selectLLMsByCreator(user?.firstName ?? ""))
+  const { user } = useUser()
 
   const handleFile = (e: any) => {
-    console.log(e.target.files[0])
     setFile(e.target.files[0])
   }
 
@@ -52,25 +48,22 @@ export function DialogComponent({setAiData}: {setAiData: React.Dispatch<React.Se
     usecase: "",
     prompt: "",
     type: "Creative" as LLMDataProps["type"],
-    image: "", // Use null to represent no file selected initially
+    image: "", 
   })
 
   const handleChange = (e: any) => {
     const { name, value } = e.target
-    // console.log("e", e.target, e.target.value, e.target.name)
     setFormData(prevState => ({
       ...prevState,
-      [name]: value, // Handle file input separately
+      [name]: value,
     }))
   }
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     setLoader(true)
-    console.log("submitted", file);
     let selectedLLM: LLMDataProps;
     const data = new FormData();
-    console.log(file);
     if (file) {
       data.append("file", file);
     }
@@ -83,7 +76,6 @@ export function DialogComponent({setAiData}: {setAiData: React.Dispatch<React.Se
         body: data,
       });
       const imageData = await response.json();
-      console.log(imageData);
   
       setFormData(prevState => ({
         ...prevState,
@@ -120,8 +112,6 @@ export function DialogComponent({setAiData}: {setAiData: React.Dispatch<React.Se
     } catch (error) {
       console.log(error);
     }
-  
-    console.log("formdata", formData);
   };  
 
   return (

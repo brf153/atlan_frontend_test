@@ -193,7 +193,6 @@ const ModelDescription = ({
 
 const Chat: React.FC = () => {
   const currentLLM: LLMDataProps | undefined = useAppSelector(selectCurrentLLM)
-  console.log("currentLLM", currentLLM)
   if (!currentLLM) {
     return (
       <Layout>
@@ -207,7 +206,7 @@ const Chat: React.FC = () => {
     )
   }
 
-  const { isSignedIn, user, isLoaded } = useUser()
+  const { user } = useUser()
 
   const [favourite, setFavourite] = useState(false)
   const dispatch = useDispatch()
@@ -223,17 +222,12 @@ const Chat: React.FC = () => {
         ...currentLLM,
         favourite: favouritesArray,
       }
-
       let availableLLMsCopy = [...availableLLMs]
       let index = availableLLMsCopy.findIndex(llm => llm.id === llmData.id)
       availableLLMsCopy[index] = llmData
-
-      console.log("Available", availableLLMsCopy)
       dispatch(setAvailableLLMs(availableLLMsCopy))
 
       dispatch(setFavouriteLLMs([...favouriteLLMs, llmData]))
-
-      console.log("Favourite")
     } else if (favourite && user) {
       const favouritesArray = currentLLM.favourite.filter(
         name => name !== user.firstName,
@@ -245,13 +239,10 @@ const Chat: React.FC = () => {
       let availableLLMsCopy = [...availableLLMs]
       let index = availableLLMsCopy.findIndex(llm => llm.id === llmData.id)
       availableLLMsCopy[index] = llmData
-
-      console.log("Available", availableLLMsCopy)
       dispatch(setAvailableLLMs(availableLLMsCopy))
       dispatch(
         setFavouriteLLMs(favouriteLLMs.filter(llm => llm.id !== llmData.id)),
       )
-      console.log("Unfavourite")
     }
 
     setFavourite(updatedFavourite)
@@ -264,10 +255,6 @@ const Chat: React.FC = () => {
   useEffect(() => {
     setMessages(currentLLM?.message ?? [])
     setFavourite(currentLLM.favourite.includes(user?.firstName as never))
-    console.log(
-      "Favourite",
-      currentLLM.favourite.includes(user?.firstName as never),
-    )
   }, [currentLLM])
 
   const handleSendMessage = async () => {

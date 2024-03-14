@@ -115,7 +115,6 @@ const Home = () => {
   })
 
   const handleData = (e: any) => {
-    console.log("Data", e.target.innerText)
     if (e.target.innerText === "Latest") {
       setData({ bool: false, type: "", trend: false })
     } 
@@ -133,8 +132,6 @@ const Home = () => {
       const filteredLLM = llm.filter((item) => item.favourite.includes(user.firstName as never));
       favouriteLLM.push(...filteredLLM);
     }
-  
-    console.log("favouriteLLM", favouriteLLM);
     dispatch(setFavouriteLLMs(favouriteLLM))
   };
   

@@ -39,7 +39,6 @@ export const selectAvailableLLMs = (state: { llms: LLMState }) => state.llms.ava
 export const selectCurrentLLM = (state: { llms: LLMState }) => state.llms.currentLLM;
 
 export const selectLLMsByCreator = (creator: string) => (state: { llms: LLMState }) => {
-  console.log("checking error", state.llms)
   return state.llms.availableLLMs.filter(llm => llm.creator === creator);
 };
 
