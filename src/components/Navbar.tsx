@@ -8,13 +8,11 @@ type Props = {}
 
 function Navbar({}: Props) {
   const dispatch = useNavigate()
-  const handleClick=()=>{
-    dispatch('/favourite')
-  }
+
   return (
     <div className="Navbar">
         <img src={logo} alt="background" className="NavbarImg object-cover"/>
-        <div className='text-white relative left-[4vw] text-[2rem] xl:mx-auto 2xl:left-[5vw] sm:text-[3rem]'>
+        <div className='text-white relative left-[4vw] text-[3vmax] xl:mx-auto 2xl:left-[5vw] sm:text-[3rem]'>
         𝗠𝗼𝗱𝗲𝗹𝗶𝗳𝘆
         </div>
         <div className="flex w-auto justify-between">
@@ -26,10 +24,7 @@ function Navbar({}: Props) {
             </button>
           </SignInButton>
         </SignedOut>
-
-
           <SignedIn>
-            <CiStar onClick={handleClick} className="bg-white w-[7vmin] h-[7vmin] md:w-[4.3vmin] md:h-[4.3vmin] p-1 rounded-full m-2 cursor-pointer"/>
             <UserButton afterSignOutUrl='/'/>
           </SignedIn>
         </div>

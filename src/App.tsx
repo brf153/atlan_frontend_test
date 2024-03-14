@@ -12,7 +12,6 @@ function App() {
   <Routes>
     <Route path="/myai" element={<MyAI />} />
     <Route path="/chat" element={<Chat />} />
-    <Route path="/favourite" element={<Favourite />} />
     <Route path="*" element={<Home />} />
   </Routes>
 </Router>

@@ -36,7 +36,7 @@ export enum CardProps {
 export enum ImageUrl{
     Mountain = "https://res.cloudinary.com/dofq9gh9l/image/upload/v1710345172/xk9xj2wmf3hirkxmrfgc.webp",
     Sport = "https://res.cloudinary.com/dofq9gh9l/image/upload/v1710345173/m0py9uvp86mynv8i3das.webp",
-    Food = "https://res.cloudinary.com/dofq9gh9l/image/upload/v1710400932/draweccbl5ji9qwgma7y.webp",
+    Food = "https://res.cloudinary.com/dofq9gh9l/image/upload/v1710345173/jwc6ybh0lrkxuireevfz.webp",
 }
 
 export type LLMProps = "ChatGPT" | "Llama" | "Replit" | "EleutharAI" | "Goose" | "Image";
