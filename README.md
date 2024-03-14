@@ -58,7 +58,7 @@ To run the LLM Catalogue App locally, follow these steps:
 Source: [Pingdom](https://tools.pingdom.com/)
 
 **To reduce load time, I have considered the following strategies:**
-1. Address Largest Contentful Paint (LCP) issues to improve page loading speed.
+1. Preload Largest Contentful Paint (LCP) image to improve page loading speed.
 2. Convert images to WebP format for better compression and faster loading times, particularly for JPEG, PNG, and GIF formats.
 3. Refactor JavaScript code to remove unused or redundant code, optimizing performance and reducing file size.
 
