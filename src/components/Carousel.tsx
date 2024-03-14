@@ -21,8 +21,11 @@ const CarouselItemData = [
 export function CardCarousel() {
   useEffect(() => {
     CarouselItemData.forEach(item => {
-      const img = new Image();
-      img.src = item.image;
+      const preloadLink = document.createElement('link');
+      preloadLink.rel = 'preload';
+      preloadLink.as = 'image';
+      preloadLink.href = item.image;
+      document.head.appendChild(preloadLink);
     });
   }, []);
 
