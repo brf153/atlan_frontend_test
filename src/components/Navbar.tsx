@@ -30,7 +30,6 @@ function Navbar({}: Props) {
 
           <SignedIn>
             <CiStar onClick={handleClick} className="bg-white w-[7vmin] h-[7vmin] md:w-[4.3vmin] md:h-[4.3vmin] p-1 rounded-full m-2 cursor-pointer"/>
-            <CiBellOn className="bg-white w-[8vmin] h-[7vmin] md:w-[4.3vmin] md:h-[4.3vmin] p-1 rounded-full m-2 cursor-pointer" />
             <UserButton afterSignOutUrl='/'/>
           </SignedIn>
         </div>
