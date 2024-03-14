@@ -1,6 +1,6 @@
 # LLM Catalogue App
 
-The LLM Catalogue App is a frontend web application built with React, TypeScript, Tailwind CSS, Shadcn, Redux, and MockAPI. It provides a user-friendly interface to explore and interact with various Language Models (LLMs).
+The LLM Catalogue App is a frontend web application built with React, TypeScript, Tailwind CSS, Shadcn, Redux, React Router and MockAPI. It provides a user-friendly interface to explore and interact with various Language Models (LLMs).
 
 ## Features
 
@@ -47,9 +47,9 @@ To run the LLM Catalogue App locally, follow these steps:
 
 5. Run the server:
 
-```bash
-npm run dev
-```
+   ```bash
+   npm run dev
+   ```
 
 ## Website Statistics
 
