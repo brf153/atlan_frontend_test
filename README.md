@@ -71,7 +71,10 @@ Source: [Pingdom](https://tools.pingdom.com/)
 5) Upon selection, users are directed to the Chat page, featuring a model sidebar displaying available LLM models ("Try These" section). Additionally, a model description sidebar provides information about the selected model, including its description, code snippet, and use cases. A temperature meter allows users to adjust the temperature for the LLM models, and an LLM dropdown menu enables selection of the desired model for interaction. The chat section facilitates interaction with the selected LLM model.
 6) Currently, six LLM models are integrated, with five for text and one for images. Creative models generate images, while programming or academic models are used for bot interaction.
 7) Users can change LLM models by selecting from the dropdown menu and adjust the temperature to alter response randomness.
-8) Multiple REST APIs are utilized for LLM models, with some providing consistent responses (OpenAI, Llama, Stability AI) and others yielding more random responses (Goose, Eleuthar AI).
+8) Multiple REST APIs are utilized for LLM models, with some providing consistent responses (Llama, Stability AI) and others yielding more random responses (Goose, Eleuthar AI).
+### Note: The OpenAI API key has expired, and I am currently experiencing difficulties in generating a new one.
+![WhatsApp Image 2024-03-20 at 10 57 47](https://github.com/brf153/atlan_frontend_test/assets/107868772/24b1ec2c-5211-4e0a-81e7-83122866b871)
+
 9) Users can mark LLM models as favorites by clicking the star icon. These favorites are accessible on the MyAI page under the "Favourites" section. Note that due to limitations with the PUT endpoint in MockAPI, changes to custom data are only reflected in the Redux store.
 10) The MyAI page allows users to create custom AI models by clicking the "Add" button. Currently, only one custom model can be created, which is then displayed on the homepage alongside other models.
 11) The homepage categorizes LLM models into programming, creative, academic, and featured sections.
